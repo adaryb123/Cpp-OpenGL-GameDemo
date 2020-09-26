@@ -10,7 +10,7 @@
 
 #include <shaders/color_frag_glsl.h>
 #include <shaders/color_vert_glsl.h>
-
+// test
 const unsigned int SIZE = 512;
 
 /*!
