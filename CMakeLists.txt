@@ -162,18 +162,18 @@ add_executable(gl8_framebuffer src/gl8_framebuffer/gl8_framebuffer.cpp)
 target_link_libraries(gl8_framebuffer ppgso shaders)
 install(TARGETS gl8_framebuffer DESTINATION .)
 
-# gl9_scene
+# gl9_scene1
 add_executable(gl9_scene
-        src/gl9_scene/gl9_scene.cpp
-        src/gl9_scene/object.cpp
-        src/gl9_scene/scene.cpp
-        src/gl9_scene/camera.cpp
-        src/gl9_scene/asteroid.cpp
-        src/gl9_scene/generator.cpp
-        src/gl9_scene/player.cpp
-        src/gl9_scene/projectile.cpp
-        src/gl9_scene/explosion.cpp
-        src/gl9_scene/space.cpp)
+        src/gl9_scene1/gl9_scene.cpp
+        src/gl9_scene1/object.cpp
+        src/gl9_scene1/scene.cpp
+        src/gl9_scene1/camera.cpp
+        src/gl9_scene1/asteroid.cpp
+        src/gl9_scene1/generator.cpp
+        src/gl9_scene1/player.cpp
+        src/gl9_scene1/projectile.cpp
+        src/gl9_scene1/explosion.cpp
+        src/gl9_scene1/space.cpp)
 target_link_libraries(gl9_scene ppgso shaders)
 install(TARGETS gl9_scene DESTINATION .)
 
@@ -216,6 +216,25 @@ add_executable(task7_particles src/task7_particles/task7_particles.cpp)
 target_link_libraries(task7_particles ppgso shaders)
 install(TARGETS task7_particles DESTINATION .)
 
+# projekt
+add_executable(projekt
+        src/projekt/main.cpp
+        src/projekt/Camera.cpp
+        src/projekt/Camera.h
+        src/projekt/Player.cpp
+        src/projekt/Player.h
+        src/projekt/Scene.cpp
+        src/projekt/Scene.h
+        src/projekt/Object.cpp
+        src/projekt/Object.h
+        src/projekt/Road.cpp
+        src/projekt/Road.h
+        src/projekt/Tire.cpp
+        src/projekt/Tire.h
+        src/projekt/Generator.cpp
+        src/projekt/Generator.h src/projekt/Mantinel.cpp src/projekt/Mantinel.h)
+target_link_libraries(projekt ppgso shaders)
+install(TARGETS projekt DESTINATION .)
 
 #
 # INSTALLATION
