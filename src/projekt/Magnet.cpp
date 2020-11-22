@@ -1,5 +1,5 @@
 #include <glm/gtc/random.hpp>
-#include "Tire.h"
+#include "Magnet.h"
 #include "Mantinel.h"
 
 #include <shaders/diffuse_vert_glsl.h>
@@ -7,24 +7,24 @@
 
 
 // Static resources
-std::unique_ptr<ppgso::Mesh> Tire::mesh;
-std::unique_ptr<ppgso::Texture> Tire::texture;
-std::unique_ptr<ppgso::Shader> Tire::shader;
+std::unique_ptr<ppgso::Mesh> Magnet::mesh;
+std::unique_ptr<ppgso::Texture> Magnet::texture;
+std::unique_ptr<ppgso::Shader> Magnet::shader;
 
-Tire::Tire() {
+Magnet::Magnet() {
     // Set random scale speed and rotation
-    rotation = {0.5f,0.0f,0.0f};
+    rotation = {0.0f,1.5f,0.0f};
     rotMomentum = { 0,0,0};
-    speed = {8.0f,-6.0f,0};
-    scale *= 0.10f;
+    speed = {0.0f,-6.0f,0};
+    scale *= 0.30f;
 
     // Initialize static resources if needed
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
-    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Tire.bmp"));
-    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("Tire.obj");
+    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Magnet.bmp"));
+    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("Magnet.obj");
 }
 
-bool Tire::update(Scene &scene, float dt) {
+bool Magnet::update(Scene &scene, float dt) {
     // Count time alive
     age += dt;
 
@@ -32,17 +32,17 @@ bool Tire::update(Scene &scene, float dt) {
     //position += speed * dt;
 
     // Rotate the object
-    rotation += rotMomentum * dt;
+    //rotation += rotMomentum * dt;
 
     // Delete when alive longer than 10s or out of visibility
     if (age > 10.0f || position.y < -10) return false;
 
     // Collide with scene
-    for (auto &obj : scene.objects) {
+    /*for (auto &obj : scene.objects) {
         // Ignore self in scene
         if (obj.get() == this) continue;
 
-        //tires will bounce off mantinels
+        //Magnets will bounce off mantinels
         auto mantinel = dynamic_cast<Mantinel *>(obj.get());
         if (mantinel) {
             if (abs(position.x) >= (abs(mantinel->position.x) - 1)) {
@@ -55,7 +55,7 @@ bool Tire::update(Scene &scene, float dt) {
                 return true;
             }
         }
-    }
+    }*/
     position += speed * dt;
 
     // Generate modelMatrix from position, rotation and scale
@@ -64,7 +64,9 @@ bool Tire::update(Scene &scene, float dt) {
     return true;
 }
 
-void Tire::render(Scene &scene) {
+void Magnet::render(Scene &scene) {
+    glClear(GL_DEPTH_BUFFER_BIT);
+
     shader->use();
 
     // Set up light
@@ -79,4 +81,3 @@ void Tire::render(Scene &scene) {
     shader->setUniform("Texture", *texture);
     mesh->render();
 }
-

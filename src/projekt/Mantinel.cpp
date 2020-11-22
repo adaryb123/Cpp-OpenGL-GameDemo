@@ -11,7 +11,7 @@ std::unique_ptr<ppgso::Texture> Mantinel::texture;
 std::unique_ptr<ppgso::Shader> Mantinel::shader;
 
 Mantinel::Mantinel() {
-    scale = {4.0,1,1};
+    scale = {6.0,2.0,1};
 
     // Initialize static resources if needed
     if (!shader) shader = std::make_unique<ppgso::Shader>(texture_vert_glsl, texture_frag_glsl);

@@ -1,6 +1,10 @@
 #include "Player.h"
 #include "Scene.h"
 #include "Mantinel.h"
+#include "Tire.h"
+#include "TrafficCone.h"
+#include "Magnet.h"
+#include "windows.h"
 
 #include <shaders/diffuse_vert_glsl.h>
 #include <shaders/diffuse_frag_glsl.h>
@@ -10,13 +14,14 @@ std::unique_ptr<ppgso::Mesh> Player::mesh;
 std::unique_ptr<ppgso::Texture> Player::texture;
 std::unique_ptr<ppgso::Shader> Player::shader;
 
-auto default_rotation = 3.2f;
-glm::vec3 default_scale = {0.5f,0.5f,1.0f};
+//auto default_rotation = 3.2f;
+//glm::vec3 default_scale = {0.5f,0.5f,1.0f};
 
 Player::Player() {
     // Scale the default model
-    scale = default_scale;
-    rotation.z += default_rotation;
+    scale = {0.5f,0.5f,1.0f};
+    rotation.z += 3.2f;
+    under_force = false;
 
     // Initialize static resources if needed
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
@@ -43,6 +48,37 @@ bool Player::update(Scene &scene, float dt) {
                 return true;
             }
         }
+        // If player hits an obstacle, game stops for a moment
+        auto tire = dynamic_cast<Tire*>(obj.get());
+        if(tire) {
+            if (distance(position, tire->position) < 1) {
+                scene.stopAnimation = true;
+                //Sleep(1000);
+                scene.stopAnimation = false;
+            }
+        }
+        // If player hits an obstacle, game stops for a moment
+        auto trafficCone = dynamic_cast<TrafficCone*>(obj.get());
+        if(trafficCone) {
+            if (distance(position, trafficCone->position) < 1) {
+                scene.stopAnimation = true;
+                //Sleep(1000);
+                scene.stopAnimation = false;
+            }
+        }
+        // Magnet will push the player a bit
+        auto magnet = dynamic_cast<Magnet*>(obj.get());
+        if(magnet) {
+            if (magnet->position.y - position.y < 2 && magnet->position.y - position.y > -2) {
+                auto magnet_distance = distance(position, magnet->position);
+                if (magnet_distance < 8) {
+                    under_force = true;
+                    external_force.x = 12 - magnet_distance;
+                    if (magnet->position.x < 0)
+                        external_force = - external_force;
+                }
+            }
+        }
     }
     // Keyboard controls
     if(scene.keyboard[GLFW_KEY_LEFT])
@@ -50,6 +86,11 @@ bool Player::update(Scene &scene, float dt) {
     else if(scene.keyboard[GLFW_KEY_RIGHT])
         position.x -= 10 * dt;
 
+    if (under_force == true)
+    {
+        position -= external_force *dt;
+        under_force = false;
+    }
     generateModelMatrix();
     return true;
 }
@@ -68,8 +109,4 @@ void Player::render(Scene &scene) {
     shader->setUniform("ModelMatrix", modelMatrix);
     shader->setUniform("Texture", *texture);
     mesh->render();
-}
-
-void Player::onClick(Scene &scene) {
-    std::cout << "Player has been clicked!" << std::endl;
 }

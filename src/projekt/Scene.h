@@ -32,7 +32,7 @@ public:
      * @param direction - Direction to pick objects from
      * @return Objects - Vector of pointers to intersected objects
      */
-    std::vector<Object*> intersect(const glm::vec3 &position, const glm::vec3 &direction);
+   // std::vector<Object*> intersect(const glm::vec3 &position, const glm::vec3 &direction);
 
     // Camera object
     std::unique_ptr<Camera> camera;
@@ -51,6 +51,8 @@ public:
         double x, y;
         bool left, right;
     } cursor;
+
+    bool stopAnimation = false;
 };
 
 #endif // _PPGSO_SCENE_H

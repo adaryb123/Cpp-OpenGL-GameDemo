@@ -21,7 +21,7 @@ void Scene::render() {
     for ( auto& obj : objects )
         obj->render(*this);
 }
-
+/*
 std::vector<Object*> Scene::intersect(const glm::vec3 &position, const glm::vec3 &direction) {
     std::vector<Object*> intersected = {};
     for(auto& object : objects) {
@@ -53,3 +53,4 @@ std::vector<Object*> Scene::intersect(const glm::vec3 &position, const glm::vec3
 
     return intersected;
 }
+*/

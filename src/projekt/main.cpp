@@ -5,50 +5,73 @@
 #include <ppgso/ppgso.h>
 
 #include "Camera.h"
-#include "Scene.h"
+#include "scene.h"
 #include "Player.h"
 #include "Road.h"
 #include "Generator.h"
 #include "Mantinel.h"
+#include "Sky.h"
 
 const unsigned int HEIGHT = 1200;
-const unsigned int WIDTH = 1600;
+const unsigned int WIDTH = 1800;
 
 class SceneWindow : public ppgso::Window {
 private:
-    Scene scene;
+    Scene scene2;
+    Scene scene1;
+    // 1 for the first scene and 2 for the second scene
+    int current_scene = 2;
     bool animate = true;
-    void initScene() {
-        scene.objects.clear();
+    void initScene2() {
+        current_scene = 2;
+        scene2.objects.clear();
 
         auto camera = std::make_unique<Camera>(60.0f, 1.0f, 0.1f, 100.0f);
-        camera->position.z = -15.0f;
-        scene.camera = move(camera);
+        camera->position = {0.0,-10.0,-10.0};
+        camera->back = {0.0,-1.0,-1.0};
+        scene2.camera = move(camera);
 
-        scene.objects.push_back(std::make_unique<Road>());
+        scene2.objects.push_back(std::make_unique<Sky>());
+
+        scene2.objects.push_back(std::make_unique<Road>());
+
+        auto generator = std::make_unique<Generator>();
+        generator->position.y = 12.5f;
+        scene2.objects.push_back(move(generator));
 
         auto right_mantinel = std::make_unique<Mantinel>();
         right_mantinel->position.x = 6.5;
         right_mantinel->rotation =  {0.0,-1.58,1.65};
-        scene.objects.push_back(move(right_mantinel));
+        scene2.objects.push_back(move(right_mantinel));
 
         auto left_mantinel = std::make_unique<Mantinel>();
         left_mantinel->position.x = -6.5;
         left_mantinel->rotation = {0.0,-1.58,1.45};
-        scene.objects.push_back(move(left_mantinel));
-
-        auto generator = std::make_unique<Generator>();
-        generator->position.y = 10.0f;
-        scene.objects.push_back(move(generator));
+        scene2.objects.push_back(move(left_mantinel));
 
         auto player = std::make_unique<Player>();
         player->position.y = -6;
-        scene.objects.push_back(move(player));
+        scene2.objects.push_back(move(player));
+    }
+    void initScene1() {
+        current_scene = 1;
+        scene1.objects.clear();
+
+        auto camera = std::make_unique<Camera>(60.0f, 1.0f, 0.1f, 100.0f);
+        camera->position = {0.0,-10.0,-10.0};
+        camera->back = {0.0,-1.0,-1.0};
+        scene1.camera = move(camera);
+
+        auto left_mantinel = std::make_unique<Mantinel>();
+        left_mantinel->position.x = -6.5;
+        left_mantinel->rotation = {0.0,-1.58,1.45};
+        scene1.objects.push_back(move(left_mantinel));
+
     }
 
 public:
-    SceneWindow() : Window{"gl9_scene1", WIDTH, HEIGHT} {
-        //SceneWindow() : Window{"gl9_scene1", SIZE, SIZE} {
+    SceneWindow() : Window{"GoKart Arena", WIDTH, HEIGHT} {
+        //Scene2Window() : Window{"gl9_scene21", SIZE, SIZE} {
         //hideCursor();
         glfwSetInputMode(window, GLFW_STICKY_KEYS, 1);
 
@@ -62,7 +85,7 @@ public:
         glFrontFace(GL_CCW);
         glCullFace(GL_BACK);
 
-        initScene();
+        initScene2();
     }
 
     /*!
@@ -73,80 +96,65 @@ public:
      * @param mods Additional modifiers to consider
      */
     void onKey(int key, int scanCode, int action, int mods) override {
-        scene.keyboard[key] = action;
+        scene2.keyboard[key] = action;
 
         // Reset
         if (key == GLFW_KEY_R && action == GLFW_PRESS) {
-            initScene();
+            initScene2();
         }
 
         // Pause
         if (key == GLFW_KEY_P && action == GLFW_PRESS) {
             animate = !animate;
         }
-    }
 
-    /*!
-     * Handle cursor position changes
-     * @param cursorX Mouse horizontal position in window coordinates
-     * @param cursorY Mouse vertical position in window coordinates
-     */
-    void onCursorPos(double cursorX, double cursorY) override {
-        scene.cursor.x = cursorX;
-        scene.cursor.y = cursorY;
-    }
-
-    /*!
-     * Handle cursor buttons
-     * @param button Mouse button being manipulated
-     * @param action Mouse bu
-     * @param mods
-     */
-    void onMouseButton(int button, int action, int mods) override {
-        if(button == GLFW_MOUSE_BUTTON_LEFT) {
-            scene.cursor.left = action == GLFW_PRESS;
-
-            if (scene.cursor.left) {
-                // Convert pixel coordinates to Screen coordinates
-                double u = (scene.cursor.x / width - 0.5f) * 2.0f;
-                double v = - (scene.cursor.y / height - 0.5f) * 2.0f;
-
-                // Get mouse pick vector in world coordinates
-                auto direction = scene.camera->cast(u, v);
-                auto position = scene.camera->position;
-
-                // Get all objects in scene intersected by ray
-                auto picked = scene.intersect(position, direction);
-
-                // Go through all objects that have been picked
-                for (auto &obj: picked) {
-                    // Pass on the click event
-                    obj->onClick(scene);
-                }
-            }
-        }
-        if(button == GLFW_MOUSE_BUTTON_RIGHT) {
-            scene.cursor.right = action == GLFW_PRESS;
+        if (key == GLFW_KEY_N && action == GLFW_PRESS) {
+            initScene1();
         }
     }
 
     void onIdle() override {
         // Track time
-        static auto time = (float) glfwGetTime();
+        if (current_scene == 2) {
+            static auto time = (float) glfwGetTime();
 
-        // Compute time delta
-        float dt = animate ? (float) glfwGetTime() - time : 0;
+            // Compute time delta
+            if (scene2.stopAnimation == true)
+                animate = false;
 
-        time = (float) glfwGetTime();
+            if (scene2.stopAnimation == false && animate == false)
+                animate = true;
 
-        // Set gray background
-        glClearColor(.5f, .5f, .5f, 0);
-        // Clear depth and color buffers
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            float dt = animate ? (float) glfwGetTime() - time : 0;
 
-        // Update and render all objects
-        scene.update(dt);
-        scene.render();
+            time = (float) glfwGetTime();
+
+            // Set gray background
+            glClearColor(.5f, .5f, .5f, 0);
+            // Clear depth and color buffers
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            // Update and render all objects
+            scene2.update(dt);
+            scene2.render();
+        }
+        else if (current_scene == 1)
+        {
+            static auto time = (float) glfwGetTime();
+
+            float dt = animate ? (float) glfwGetTime() - time : 0;
+
+            time = (float) glfwGetTime();
+
+            // Set gray background
+            glClearColor(.5f, .5f, .5f, 0);
+            // Clear depth and color buffers
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            // Update and render all objects
+            scene1.update(dt);
+            scene1.render();
+        }
     }
 };
 
