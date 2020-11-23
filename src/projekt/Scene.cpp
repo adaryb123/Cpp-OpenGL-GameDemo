@@ -1,8 +1,11 @@
 #include "Scene.h"
 
 void Scene::update(float time) {
-    camera->update();
-
+    if (cameraIsPlayer) {
+        sendCameraKeyboardAndMouse();
+    }
+    camera->update(time);
+   // camera->updateWithScene(*this,time);
     // Use iterator to update all objects so we can remove while iterating
     auto i = std::begin(objects);
 
@@ -20,6 +23,16 @@ void Scene::render() {
     // Simply render all objects
     for ( auto& obj : objects )
         obj->render(*this);
+}
+
+void Scene::sendCameraKeyboardAndMouse()
+{
+    camera->cameraIsPlayer = true;
+    camera->keyboard = keyboard;
+    camera->mouseX = mouseX;
+    camera->mouseY = mouseY;
+  //  camera->cursor.left = cursor.left;
+   // camera->cursor.right = cursor.right;
 }
 /*
 std::vector<Object*> Scene::intersect(const glm::vec3 &position, const glm::vec3 &direction) {

@@ -79,4 +79,8 @@ void Tire::render(Scene &scene) {
     shader->setUniform("Texture", *texture);
     mesh->render();
 }
-
+//temp
+void Tire::erase_speed(){
+    speed = {0,0,0};
+    age = -2000;
+}

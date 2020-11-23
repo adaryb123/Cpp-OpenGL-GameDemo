@@ -46,6 +46,8 @@ public:
      */
     void render(Scene &scene) override;
 
+    //temp
+    void erase_speed();
 private:
 };
 

@@ -11,6 +11,8 @@
 #include "Generator.h"
 #include "Mantinel.h"
 #include "Sky.h"
+#include "Tire.h"
+#include "Wall.h"
 
 const unsigned int HEIGHT = 1200;
 const unsigned int WIDTH = 1800;
@@ -25,10 +27,11 @@ private:
     void initScene2() {
         current_scene = 2;
         scene2.objects.clear();
+        scene2.cameraIsPlayer = false;
 
         auto camera = std::make_unique<Camera>(60.0f, 1.0f, 0.1f, 100.0f);
         camera->position = {0.0,-10.0,-10.0};
-        camera->back = {0.0,-1.0,-1.0};
+        camera->front = {0.0,1.0,1.0};
         scene2.camera = move(camera);
 
         scene2.objects.push_back(std::make_unique<Sky>());
@@ -56,17 +59,48 @@ private:
     void initScene1() {
         current_scene = 1;
         scene1.objects.clear();
+        scene1.cameraIsPlayer = 1;
 
         auto camera = std::make_unique<Camera>(60.0f, 1.0f, 0.1f, 100.0f);
-        camera->position = {0.0,-10.0,-10.0};
-        camera->back = {0.0,-1.0,-1.0};
+        camera->position = {0.0,0.0,-1.0};
+        camera->front = {0.0,0.0,1.0};
         scene1.camera = move(camera);
 
-        auto left_mantinel = std::make_unique<Mantinel>();
-        left_mantinel->position.x = -6.5;
-        left_mantinel->rotation = {0.0,-1.58,1.45};
-        scene1.objects.push_back(move(left_mantinel));
+        auto tire = std::make_unique<Tire>();
+        tire->position = {0,0,-5};
+        tire->erase_speed();
+        //left_mantinel->rotation = {0.0,-1.58,1.45};
+        scene1.objects.push_back(move(tire));
 
+        auto wall1 = std::make_unique<Wall>();      //front
+        wall1->position = {0,1,-10};
+        wall1->rotation = {0.0,0,0};
+        scene1.objects.push_back(move(wall1));
+
+        auto wall2 = std::make_unique<Wall>();      //down
+        wall2->position = {0,-2,0};
+        wall2->rotation = {-1.5,3,0};
+        scene1.objects.push_back(move(wall2));
+
+        auto wall3 = std::make_unique<Wall>();      //back
+        wall3->position = {0,1,10};
+        wall3->rotation = {3,0,0};
+        scene1.objects.push_back(move(wall3));
+
+        auto wall4 = std::make_unique<Wall>();      //up
+        wall4->position = {0,10,0};
+        wall4->rotation = {1.5,3,0};
+        scene1.objects.push_back(move(wall4));
+
+        auto wall5 = std::make_unique<Wall>();      //right
+        wall5->position = {10,0,0};
+        wall5->rotation = {0,0,-1.5};
+        scene1.objects.push_back(move(wall5));
+
+        auto wall6 = std::make_unique<Wall>();      //left
+        wall6->position = {-10,0,0};
+        wall6->rotation = {0,0,1.5};
+        scene1.objects.push_back(move(wall6));
     }
 
 public:
@@ -85,6 +119,9 @@ public:
         glFrontFace(GL_CCW);
         glCullFace(GL_BACK);
 
+        // Disable cursor
+        //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
         initScene2();
     }
 
@@ -96,6 +133,7 @@ public:
      * @param mods Additional modifiers to consider
      */
     void onKey(int key, int scanCode, int action, int mods) override {
+        scene1.keyboard[key] = action;
         scene2.keyboard[key] = action;
 
         // Reset
@@ -112,6 +150,14 @@ public:
             initScene1();
         }
     }
+
+    void onCursorPos(double cursorX, double cursorY) override {
+        scene1.mouseX = static_cast<float>(cursorX);
+        scene1.mouseY = static_cast<float>(cursorY);
+       // scene1.cursor.x = cursorX;
+       // scene1.cursor.y = cursorY;
+    }
+
 
     void onIdle() override {
         // Track time
@@ -167,3 +213,50 @@ int main() {
 
     return EXIT_SUCCESS;
 }
+
+/*
+void processInput(GLFWwindow *window)
+{
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+        camera.ProcessKeyboard(FORWARD, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        camera.ProcessKeyboard(BACKWARD, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+        camera.ProcessKeyboard(LEFT, deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+        camera.ProcessKeyboard(RIGHT, deltaTime);
+}
+
+// glfw: whenever the window size changed (by OS or user resize) this callback function executes
+// ---------------------------------------------------------------------------------------------
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    // make sure the viewport matches the new window dimensions; note that width and
+    // height will be significantly larger than specified on retina displays.
+    glViewport(0, 0, width, height);
+}
+
+
+// glfw: whenever the mouse moves, this callback is called
+// -------------------------------------------------------
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    if (firstMouse)
+    {
+        lastX = xpos;
+        lastY = ypos;
+        firstMouse = false;
+    }
+
+    float xoffset = xpos - lastX;
+    float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+
+    lastX = xpos;
+    lastY = ypos;
+
+    camera.ProcessMouseMovement(xoffset, yoffset);
+}
+*/

@@ -1,5 +1,4 @@
-#ifndef _PPGSO_SCENE_H
-#define _PPGSO_SCENE_H
+#pragma once
 
 #include <memory>
 #include <map>
@@ -47,12 +46,16 @@ public:
     glm::vec3 lightDirection{-1.0f, -1.0f, -1.0f};
 
     // Store cursor state
-    struct {
+    float mouseX;
+    float mouseY;
+    /*struct {
         double x, y;
         bool left, right;
-    } cursor;
+    } cursor;*/
 
     bool stopAnimation = false;
+
+    bool cameraIsPlayer = false;
+    void sendCameraKeyboardAndMouse();
 };
 
-#endif // _PPGSO_SCENE_H

@@ -232,7 +232,7 @@ add_executable(projekt
         src/projekt/Tire.cpp
         src/projekt/Tire.h
         src/projekt/Generator.cpp
-        src/projekt/Generator.h src/projekt/Mantinel.cpp src/projekt/Mantinel.h src/projekt/TrafficCone.cpp src/projekt/TrafficCone.h src/projekt/Magnet.cpp src/projekt/Magnet.h src/projekt/Sky.cpp src/projekt/Sky.h)
+        src/projekt/Generator.h src/projekt/Mantinel.cpp src/projekt/Mantinel.h src/projekt/TrafficCone.cpp src/projekt/TrafficCone.h src/projekt/Magnet.cpp src/projekt/Magnet.h src/projekt/Sky.cpp src/projekt/Sky.h src/projekt/fejkovaKamera.h src/projekt/Wall.cpp src/projekt/Wall.h)
 target_link_libraries(projekt ppgso shaders)
 install(TARGETS projekt DESTINATION .)
 
