@@ -13,6 +13,7 @@
 #include "Sky.h"
 #include "Tire.h"
 #include "Wall.h"
+#include "Door.h"
 
 const unsigned int HEIGHT = 1200;
 const unsigned int WIDTH = 1800;
@@ -33,6 +34,7 @@ private:
         camera->position = {0.0,-10.0,-10.0};
         camera->front = {0.0,1.0,1.0};
         scene2.camera = move(camera);
+        //scene2.objects.push_back(move(camera));
 
         scene2.objects.push_back(std::make_unique<Sky>());
 
@@ -65,6 +67,7 @@ private:
         camera->position = {0.0,0.0,-1.0};
         camera->front = {0.0,0.0,1.0};
         scene1.camera = move(camera);
+        //scene1.objects.push_back(move(camera));
 
         auto tire = std::make_unique<Tire>();
         tire->position = {0,0,-5};
@@ -101,6 +104,11 @@ private:
         wall6->position = {-10,0,0};
         wall6->rotation = {0,0,1.5};
         scene1.objects.push_back(move(wall6));
+
+        auto door = std::make_unique<Door>();
+        door->position = {-3,3,-9};
+        door->rotation = {1.5,0,3};
+        scene1.objects.push_back(move(door));
     }
 
 public:

@@ -57,5 +57,7 @@ public:
 
     bool cameraIsPlayer = false;
     void sendCameraKeyboardAndMouse();
+
+    bool endScene = false;
 };
 
