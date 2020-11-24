@@ -5,7 +5,7 @@
 #include <list>
 
 #include "object.h"
-#include "camera.h"
+#include "src/projekt/Scene2/StaticCamera.h"
 
 /*
  * Scene is an object that will aggregate all scene related data
@@ -14,26 +14,11 @@
  */
 class Scene {
 public:
-    /*!
-     * Update all objects in the scene
-     * @param time
-     */
-    void update(float time);
 
-    /*!
-     * Render all objects in the scene
-     */
+    void update(float time);
     void render();
 
-    /*!
-     * Pick objects using a ray
-     * @param position - Position in the scene to pick object from
-     * @param direction - Direction to pick objects from
-     * @return Objects - Vector of pointers to intersected objects
-     */
-   // std::vector<Object*> intersect(const glm::vec3 &position, const glm::vec3 &direction);
-
-    // Camera object
+    // StaticCamera object
     std::unique_ptr<Camera> camera;
 
     // All objects to be rendered in scene
@@ -48,16 +33,8 @@ public:
     // Store cursor state
     float mouseX;
     float mouseY;
-    /*struct {
-        double x, y;
-        bool left, right;
-    } cursor;*/
 
     bool stopAnimation = false;
-
-    bool cameraIsPlayer = false;
-    void sendCameraKeyboardAndMouse();
-
     bool endScene = false;
 };
 

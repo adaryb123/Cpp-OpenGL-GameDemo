@@ -10,13 +10,6 @@ std::unique_ptr<ppgso::Texture> Sky::texture;
 std::unique_ptr<ppgso::Shader> Sky::shader;
 
 Sky::Sky() {
-    // Set random scale speed and rotation
-    //position.y += 2.0f;
-   //position = {0,10.0f,15.0f};
-    //rotation = {2.3f,0.0f,0.0f};
-    //scale *= 20.0f;
-    //scale.y *= 1.8f;
-
     // Initialize static resources if needed
     if (!shader) shader = std::make_unique<ppgso::Shader>(texture_vert_glsl, texture_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Sky.bmp"));

@@ -1,9 +1,9 @@
 #include "Player.h"
-#include "Scene.h"
+#include "src/projekt/Scene.h"
 #include "Mantinel.h"
 #include "Tire.h"
 #include "TrafficCone.h"
-#include "Magnet.h"
+#include "src/projekt/Scene2/Magnet.h"
 #include "windows.h"
 
 #include <shaders/diffuse_vert_glsl.h>
@@ -13,9 +13,6 @@
 std::unique_ptr<ppgso::Mesh> Player::mesh;
 std::unique_ptr<ppgso::Texture> Player::texture;
 std::unique_ptr<ppgso::Shader> Player::shader;
-
-//auto default_rotation = 3.2f;
-//glm::vec3 default_scale = {0.5f,0.5f,1.0f};
 
 Player::Player() {
     // Scale the default model

@@ -1,11 +1,12 @@
 #include "Scene.h"
+#include "src/projekt/Scene1/CameraAsPlayer.h"
 
 void Scene::update(float time) {
-    if (cameraIsPlayer) {
-        sendCameraKeyboardAndMouse();
-    }
+    camera->keyboard = keyboard;
+    camera->mouseX = mouseX;
+    camera->mouseY = mouseY;
     camera->update(time);
-   // camera->updateWithScene(*this,time);
+
     // Use iterator to update all objects so we can remove while iterating
     auto i = std::begin(objects);
 
@@ -24,47 +25,3 @@ void Scene::render() {
     for ( auto& obj : objects )
         obj->render(*this);
 }
-
-void Scene::sendCameraKeyboardAndMouse()
-{
-    camera->cameraIsPlayer = true;
-    camera->keyboard = keyboard;
-    camera->mouseX = mouseX;
-    camera->mouseY = mouseY;
-  //  camera->cursor.left = cursor.left;
-   // camera->cursor.right = cursor.right;
-}
-
-/*
-std::vector<Object*> Scene::intersect(const glm::vec3 &position, const glm::vec3 &direction) {
-    std::vector<Object*> intersected = {};
-    for(auto& object : objects) {
-        // Collision with sphere of size object->scale.x
-        auto oc = position - object->position;
-        auto radius = object->scale.x;
-        auto a = glm::dot(direction, direction);
-        auto b = glm::dot(oc, direction);
-        auto c = glm::dot(oc, oc) - radius * radius;
-        auto dis = b * b - a * c;
-
-        if (dis > 0) {
-            auto e = sqrt(dis);
-            auto t = (-b - e) / a;
-
-            if ( t > 0 ) {
-                intersected.push_back(object.get());
-                continue;
-            }
-
-            t = (-b + e) / a;
-
-            if ( t > 0 ) {
-                intersected.push_back(object.get());
-                continue;
-            }
-        }
-    }
-
-    return intersected;
-}
-*/

@@ -27,10 +27,6 @@ Tire::Tire() {
 bool Tire::update(Scene &scene, float dt) {
     // Count time alive
     age += dt;
-
-    // Animate position according to time
-    //position += speed * dt;
-
     // Rotate the object
     rotation += rotMomentum * dt;
 

@@ -91,7 +91,7 @@ public:
     auto sphereMat = translate(glm::mat4{1.0f}, {sin(time), cos(time), 0});
     sphereMat = scale(sphereMat, {0.5f, 0.5f, 0.5f});
 
-    // Camera position/rotation - for example, translate camera a bit backwards (positive value in Z axis), so we can see the objects
+    // StaticCamera position/rotation - for example, translate camera a bit backwards (positive value in Z axis), so we can see the objects
     auto cameraMat = translate(glm::mat4{1.0f}, {0.0f, 0.0f, -2.5f});
     program.setUniform("ViewMatrix", cameraMat);
 

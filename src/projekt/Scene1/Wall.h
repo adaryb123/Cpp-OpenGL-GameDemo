@@ -1,10 +1,10 @@
 #pragma once
 #include <ppgso/ppgso.h>
 
-#include "Object.h"
-#include "Scene.h"
+#include "src/projekt/Object.h"
+#include "src/projekt/Scene.h"
 
-class Door final : public Object {
+class Wall final : public Object {
 private:
     // Static resources (Shared between instances)
     static std::unique_ptr<ppgso::Mesh> mesh;
@@ -12,7 +12,7 @@ private:
     static std::unique_ptr<ppgso::Texture> texture;
 
 public:
-    Door();
+    Wall();
     bool update(Scene &scene, float dt) override;
     void render(Scene &scene) override;
 };

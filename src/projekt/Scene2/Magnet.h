@@ -3,8 +3,8 @@
 
 #include <ppgso/ppgso.h>
 
-#include "Scene.h"
-#include "Object.h"
+#include "src/projekt/Scene.h"
+#include "src/projekt/Object.h"
 
 class Magnet final : public Object {
 private:
@@ -18,7 +18,6 @@ private:
 
     // Speed and rotational momentum
     glm::vec3 speed;
-    glm::vec3 rotMomentum;
 
 public:
     Magnet();

@@ -219,20 +219,36 @@ install(TARGETS task7_particles DESTINATION .)
 # projekt
 add_executable(projekt
         src/projekt/main.cpp
-        src/projekt/Camera.cpp
-        src/projekt/Camera.h
-        src/projekt/Player.cpp
-        src/projekt/Player.h
+        src/projekt/Scene2/StaticCamera.cpp
+        src/projekt/Scene2/StaticCamera.h
+        src/projekt/Scene2/Player.cpp
+        src/projekt/Scene2/Player.h
         src/projekt/Scene.cpp
         src/projekt/Scene.h
         src/projekt/Object.cpp
         src/projekt/Object.h
-        src/projekt/Road.cpp
-        src/projekt/Road.h
-        src/projekt/Tire.cpp
-        src/projekt/Tire.h
-        src/projekt/Generator.cpp
-        src/projekt/Generator.h src/projekt/Mantinel.cpp src/projekt/Mantinel.h src/projekt/TrafficCone.cpp src/projekt/TrafficCone.h src/projekt/Magnet.cpp src/projekt/Magnet.h src/projekt/Sky.cpp src/projekt/Sky.h src/projekt/fejkovaKamera.h src/projekt/Wall.cpp src/projekt/Wall.h src/projekt/Door.cpp src/projekt/Door.h src/projekt/CameraAsPlayer.cpp src/projekt/CameraAsPlayer.h)
+        src/projekt/Scene2/Road.cpp
+        src/projekt/Scene2/Road.h
+        src/projekt/Scene2/Tire.cpp
+        src/projekt/Scene2/Tire.h
+        src/projekt/Scene2/Generator.cpp
+        src/projekt/Scene2/Generator.h
+        src/projekt/Scene2/Mantinel.cpp
+        src/projekt/Scene2/Mantinel.h
+        src/projekt/Scene2/TrafficCone.cpp
+        src/projekt/Scene2/TrafficCone.h
+        src/projekt/Scene2/Magnet.cpp
+        src/projekt/Scene2/Magnet.h
+        src/projekt/Scene2/Sky.cpp
+        src/projekt/Scene2/Sky.h
+        src/projekt/fejkovaKamera.h
+        src/projekt/Scene1/Wall.cpp
+        src/projekt/Scene1/Wall.h
+        src/projekt/Scene1/Door.cpp
+        src/projekt/Scene1/Door.h
+        src/projekt/Scene1/CameraAsPlayer.cpp
+        src/projekt/Scene1/CameraAsPlayer.h
+        src/projekt/Camera.h)
 target_link_libraries(projekt ppgso shaders)
 install(TARGETS projekt DESTINATION .)
 

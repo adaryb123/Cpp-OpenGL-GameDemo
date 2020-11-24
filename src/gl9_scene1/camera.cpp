@@ -3,17 +3,17 @@
 #include "camera.h"
 
 
-Camera::Camera(float fow, float ratio, float near, float far) {
+StaticCamera::StaticCamera(float fow, float ratio, float near, float far) {
   float fowInRad = (ppgso::PI/180.0f) * fow;
 
   projectionMatrix = glm::perspective(fowInRad, ratio, near, far);
 }
 
-void Camera::update() {
+void StaticCamera::update() {
   viewMatrix = lookAt(position, position-back, up);
 }
 
-glm::vec3 Camera::cast(double u, double v) {
+glm::vec3 StaticCamera::cast(double u, double v) {
   // Create point in Screen coordinates
   glm::vec4 screenPosition{u,v,0.0f,1.0f};
 

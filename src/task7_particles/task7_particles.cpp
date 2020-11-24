@@ -22,7 +22,7 @@
 
 const unsigned int SIZE = 512;
 
-class Camera {
+class StaticCamera {
 public:
   // TODO: Add parameters
   glm::mat4 viewMatrix;
@@ -33,7 +33,7 @@ public:
   /// \param ratio - Viewport ratio (width/height)
   /// \param near - Distance of the near clipping plane
   /// \param far - Distance of the far clipping plane
-  Camera(float fov = 45.0f, float ratio = 1.0f, float near = 0.1f, float far = 10.0f) {
+  StaticCamera(float fov = 45.0f, float ratio = 1.0f, float near = 0.1f, float far = 10.0f) {
     // TODO: Initialize perspective projection (hint: glm::perspective)
   }
 
@@ -53,8 +53,8 @@ public:
   virtual ~Renderable() = default;
 
   /// Render the object
-  /// \param camera - Camera to use for rendering
-  virtual void render(const Camera& camera) = 0;
+  /// \param camera - StaticCamera to use for rendering
+  virtual void render(const StaticCamera& camera) = 0;
 
   /// Update the object. Useful for specifing animation and behaviour.
   /// \param dTime - Time delta
@@ -89,7 +89,7 @@ public:
     // - hint: you can add more particles to the scene here also
   }
 
-  void render(const Camera& camera) override {
+  void render(const StaticCamera& camera) override {
     // TODO: Render the object
     // - Use the shader
     // - Setup all needed shader inputs
@@ -107,7 +107,7 @@ private:
   Scene scene;
 
   // Create camera
-  Camera camera = {120.0f, (float)width/(float)height, 1.0f, 400.0f};
+  StaticCamera camera = {120.0f, (float)width / (float)height, 1.0f, 400.0f};
 
   // Store keyboard state
   std::map<int, int> keys;

@@ -1,16 +1,10 @@
-#ifndef PPGSO_SKY_H
-#define PPGSO_SKY_H
+#pragma once
 
 #include <ppgso/ppgso.h>
 
-#include "Object.h"
-#include "Scene.h"
+#include "src/projekt/Object.h"
+#include "src/projekt/Scene.h"
 
-/*!
- * This object renders the scene background
- * It does not use the camera so it uses different 2D shader program
- * Background animation is achieved by passing an offset to the fragment shader that offsets texture mapping
- */
 class Sky final : public Object {
 private:
     // Static resources (Shared between instances)
@@ -23,5 +17,3 @@ public:
     bool update(Scene &scene, float dt) override;
     void render(Scene &scene) override;
 };
-
-#endif //PPGSO_SKY_H

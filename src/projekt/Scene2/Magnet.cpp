@@ -14,7 +14,6 @@ std::unique_ptr<ppgso::Shader> Magnet::shader;
 Magnet::Magnet() {
     // Set random scale speed and rotation
     rotation = {0.0f,1.5f,0.0f};
-    rotMomentum = { 0,0,0};
     speed = {0.0f,-6.0f,0};
     scale *= 0.30f;
 
@@ -27,37 +26,10 @@ Magnet::Magnet() {
 bool Magnet::update(Scene &scene, float dt) {
     // Count time alive
     age += dt;
-
-    // Animate position according to time
-    //position += speed * dt;
-
-    // Rotate the object
-    //rotation += rotMomentum * dt;
-
     // Delete when alive longer than 10s or out of visibility
     if (age > 10.0f || position.y < -10) return false;
 
-    // Collide with scene
-    /*for (auto &obj : scene.objects) {
-        // Ignore self in scene
-        if (obj.get() == this) continue;
-
-        //Magnets will bounce off mantinels
-        auto mantinel = dynamic_cast<Mantinel *>(obj.get());
-        if (mantinel) {
-            if (abs(position.x) >= (abs(mantinel->position.x) - 1)) {
-                speed.x = -speed.x;
-                if (position.x < 0)
-                    position.x += 0.2f;
-                else
-                    position.x -= 0.2f;
-                generateModelMatrix();
-                return true;
-            }
-        }
-    }*/
     position += speed * dt;
-
     // Generate modelMatrix from position, rotation and scale
     generateModelMatrix();
 

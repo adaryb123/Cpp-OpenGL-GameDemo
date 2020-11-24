@@ -2,9 +2,9 @@
 #include <ppgso/ppgso.h>
 
 #include "Generator.h"
-#include "Tire.h"
-#include "TrafficCone.h"
-#include "Magnet.h"
+#include "src/projekt/Scene2/Tire.h"
+#include "src/projekt/Scene2/TrafficCone.h"
+#include "src/projekt/Scene2/Magnet.h"
 
 
 bool Generator::update(Scene &scene, float dt) {
