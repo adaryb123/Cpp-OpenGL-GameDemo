@@ -1,5 +1,6 @@
 #include <glm/gtc/random.hpp>
 #include "Door.h"
+#include "Camera.h"
 
 #include <shaders/texture_vert_glsl.h>
 #include <shaders/texture_frag_glsl.h>
@@ -18,6 +19,14 @@ Door::Door() {
 }
 
 bool Door::update(Scene &scene, float dt) {
+
+    auto player = dynamic_cast<Camera*>(scene.camera.get());
+    if (distance(player->position,position) < 3.5)
+    {
+        if(scene.keyboard[GLFW_KEY_F] && abs(player->front.x) < 0.75){
+            scene.endScene = true;
+        }
+    }
 
     generateModelMatrix();
     return true;

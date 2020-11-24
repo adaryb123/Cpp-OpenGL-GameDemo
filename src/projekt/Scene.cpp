@@ -34,6 +34,7 @@ void Scene::sendCameraKeyboardAndMouse()
   //  camera->cursor.left = cursor.left;
    // camera->cursor.right = cursor.right;
 }
+
 /*
 std::vector<Object*> Scene::intersect(const glm::vec3 &position, const glm::vec3 &direction) {
     std::vector<Object*> intersected = {};

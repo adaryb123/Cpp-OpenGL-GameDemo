@@ -69,11 +69,11 @@ private:
         scene1.camera = move(camera);
         //scene1.objects.push_back(move(camera));
 
-        auto tire = std::make_unique<Tire>();
+        /*auto tire = std::make_unique<Tire>();
         tire->position = {0,0,-5};
         tire->erase_speed();
         //left_mantinel->rotation = {0.0,-1.58,1.45};
-        scene1.objects.push_back(move(tire));
+        scene1.objects.push_back(move(tire));*/
 
         auto wall1 = std::make_unique<Wall>();      //front
         wall1->position = {0,1,-10};
@@ -129,8 +129,8 @@ public:
 
         // Disable cursor
         //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-
-        initScene2();
+        current_scene = 1;
+        initScene1();
     }
 
     /*!
@@ -146,17 +146,19 @@ public:
 
         // Reset
         if (key == GLFW_KEY_R && action == GLFW_PRESS) {
-            initScene2();
+            if (current_scene == 2)
+                 initScene2();
         }
 
         // Pause
         if (key == GLFW_KEY_P && action == GLFW_PRESS) {
-            animate = !animate;
+            if (current_scene == 2)
+                animate = !animate;
         }
 
-        if (key == GLFW_KEY_N && action == GLFW_PRESS) {
+        /*if (key == GLFW_KEY_N && action == GLFW_PRESS) {
             initScene1();
-        }
+        }*/
     }
 
     void onCursorPos(double cursorX, double cursorY) override {
@@ -168,8 +170,30 @@ public:
 
 
     void onIdle() override {
-        // Track time
-        if (current_scene == 2) {
+        if (current_scene == 1) {
+            // Track time
+            static auto time = (float) glfwGetTime();
+
+            float dt = animate ? (float) glfwGetTime() - time : 0;
+
+            time = (float) glfwGetTime();
+
+            // Set gray background
+            glClearColor(.5f, .5f, .5f, 0);
+            // Clear depth and color buffers
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            // Update and render all objects
+            scene1.update(dt);
+            scene1.render();
+
+            if (scene1.endScene == true) {
+                scene1.objects.clear();
+                current_scene = 2;
+                initScene2();
+            }
+        } else if (current_scene == 2) {
+            // Track time
             static auto time = (float) glfwGetTime();
 
             // Compute time delta
@@ -191,23 +215,6 @@ public:
             // Update and render all objects
             scene2.update(dt);
             scene2.render();
-        }
-        else if (current_scene == 1)
-        {
-            static auto time = (float) glfwGetTime();
-
-            float dt = animate ? (float) glfwGetTime() - time : 0;
-
-            time = (float) glfwGetTime();
-
-            // Set gray background
-            glClearColor(.5f, .5f, .5f, 0);
-            // Clear depth and color buffers
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-            // Update and render all objects
-            scene1.update(dt);
-            scene1.render();
         }
     }
 };

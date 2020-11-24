@@ -31,7 +31,7 @@ public:
 
     GLfloat pitch = 0.0f;
     GLfloat yaw = -90.0f;
-    GLfloat roll= 0.0f;
+    //GLfloat roll= 0.0f;
 
     GLfloat lastMouseX = 0.0;
     GLfloat lastMouseY = 0.0;

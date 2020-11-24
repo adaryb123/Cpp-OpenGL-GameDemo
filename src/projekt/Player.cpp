@@ -53,7 +53,7 @@ bool Player::update(Scene &scene, float dt) {
         if(tire) {
             if (distance(position, tire->position) < 1) {
                 scene.stopAnimation = true;
-                //Sleep(1000);
+                Sleep(1000);
                 scene.stopAnimation = false;
             }
         }
@@ -62,7 +62,7 @@ bool Player::update(Scene &scene, float dt) {
         if(trafficCone) {
             if (distance(position, trafficCone->position) < 1) {
                 scene.stopAnimation = true;
-                //Sleep(1000);
+                Sleep(1000);
                 scene.stopAnimation = false;
             }
         }
