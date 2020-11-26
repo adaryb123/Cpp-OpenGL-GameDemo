@@ -48,7 +48,7 @@ bool Player::update(Scene &scene, float dt) {
         // If player hits an obstacle, game stops for a moment
         auto tire = dynamic_cast<Tire*>(obj.get());
         if(tire) {
-            if (distance(position, tire->position) < 1) {
+            if (distance(position, tire->position) < 1) {                   //domysliet
                 scene.stopAnimation = true;
                 Sleep(1000);
                 scene.stopAnimation = false;
@@ -57,7 +57,7 @@ bool Player::update(Scene &scene, float dt) {
         // If player hits an obstacle, game stops for a moment
         auto trafficCone = dynamic_cast<TrafficCone*>(obj.get());
         if(trafficCone) {
-            if (distance(position, trafficCone->position) < 1) {
+            if (distance(position, trafficCone->position) < 1) {            //domysliet
                 scene.stopAnimation = true;
                 Sleep(1000);
                 scene.stopAnimation = false;

@@ -33,7 +33,7 @@ public:
     program.setUniform("ProjectionMatrix", glm::perspective((ppgso::PI / 180.f) * 60.0f, 1.0f, 0.1f, 10.0f));
 
     // Set the light direction, assumes simple white directional light
-    program.setUniform("LightDirection", normalize(glm::vec3{1.0f, -1.0f, 1.0f}));
+    program.setUniform("LightDirection", normalize(glm::vec3{-1.0f, 1.0f, 1.0f}));
 
     // Set texture as program input
     program.setUniform("Texture", texture);

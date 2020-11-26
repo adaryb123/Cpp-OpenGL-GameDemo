@@ -13,7 +13,7 @@ void CameraAsPlayer::update(float dt) {
     processKeyboardMovement(dt);
     processMouseMovement(dt);
     updateCameraVectors();
-    position.y = 0;
+    position.y = 1;
     viewMatrix = lookAt(position, position + front, up);
 }
 
@@ -26,10 +26,10 @@ void CameraAsPlayer::processKeyboardMovement(float dt)
         this->position += this->right * this->movementSpeed * dt;
     }
     if(keyboard[GLFW_KEY_UP]) {
-        this->position += this->front * this->movementSpeed * dt;
+        this->position += this->front * this->movementSpeed * 1.5f * dt;
     }
     if(keyboard[GLFW_KEY_DOWN]) {
-        this->position -= this->front * this->movementSpeed * dt;
+        this->position -= this->front * this->movementSpeed * 1.5f * dt;
     }
 }
 

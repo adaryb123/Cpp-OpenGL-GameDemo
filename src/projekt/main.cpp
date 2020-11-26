@@ -3,6 +3,7 @@
 #include <list>
 
 #include <ppgso/ppgso.h>
+#include <src/projekt/Scene2/Tire.h>
 
 #include "src/projekt/Scene2/StaticCamera.h"
 #include "scene.h"
@@ -14,6 +15,8 @@
 #include "src/projekt/Scene1/Wall.h"
 #include "src/projekt/Scene1/Door.h"
 #include "src/projekt/Scene1/CameraAsPlayer.h"
+#include "src/projekt/Scene1/Table.h"
+#include "PointLight.h"
 
 const unsigned int HEIGHT = 1200;
 const unsigned int WIDTH = 1800;
@@ -99,6 +102,24 @@ private:
         door->position = {-3,3,-9};
         door->rotation = {1.5,0,3};
         scene1.objects.push_back(move(door));
+
+        auto table = std::make_unique<Table>();
+        table->position = {5,-2,0};
+        table->rotation = {-1.5,0,0};
+        scene1.objects.push_back(move(table));
+
+        /*auto tire = std::make_unique<Tire>();
+        tire->position = {0,0,0};
+        //tire->rotation = {-1.5,0,0};
+        scene1.objects.push_back(move(tire));*/
+
+        auto light_source = std::make_unique<PointLight>();
+       // light_source->position = {5,-2,0};
+       // light_source->color = {-1.5,0,0};
+        scene1.lightSource = move(light_source);
+        //scene1.objects.push_back(move(light_source));
+
+        scene1.lightDirection = {-1.0f, -1.0f, -1.0f};
     }
 
 public:

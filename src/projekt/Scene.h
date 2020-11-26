@@ -6,6 +6,7 @@
 
 #include "object.h"
 #include "src/projekt/Scene2/StaticCamera.h"
+#include "PointLight.h"
 
 /*
  * Scene is an object that will aggregate all scene related data
@@ -28,7 +29,9 @@ public:
     std::map< int, int > keyboard;
 
     // Lights, in this case using only simple directional diffuse lighting
-    glm::vec3 lightDirection{-1.0f, -1.0f, -1.0f};
+    glm::vec3 lightDirection;//{-1.0f, -1.0f, -1.0f};
+
+    std::unique_ptr<PointLight> lightSource;
 
     // Store cursor state
     float mouseX;

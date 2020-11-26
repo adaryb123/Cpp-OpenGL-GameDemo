@@ -8,8 +8,8 @@
 
 class CameraAsPlayer final : public Camera {
 public:
-    GLfloat movementSpeed= 3.0f;
-    GLfloat sensitivity = 0.3f;
+    GLfloat movementSpeed= 6.0f;
+    GLfloat sensitivity = 0.06f;
 
     glm::vec3 worldUp = {0,1,0};
     glm::vec3 right = {0,0,0};

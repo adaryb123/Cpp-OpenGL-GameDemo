@@ -20,7 +20,7 @@ in vec4 normal;
 // The final color
 out vec4 FragmentColor;
 
-void main() {
+void main(){
   // Compute diffuse lighting
   float diffuse = max(dot(normal, vec4(normalize(LightDirection), 1.0f)), 0.0f);
 

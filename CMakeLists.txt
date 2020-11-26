@@ -68,6 +68,8 @@ set(PPGSO_SHADER_SRC
         shader/convolution_vert.glsl shader/convolution_frag.glsl
         shader/diffuse_vert.glsl shader/diffuse_frag.glsl
         shader/texture_vert.glsl shader/texture_frag.glsl
+        shader/myshader_vert.glsl shader/myshader_frag.glsl
+        shader/copied_vert.glsl shader/copied_frag.glsl
         )
 add_resources(shaders ${PPGSO_SHADER_SRC})
 
@@ -248,7 +250,11 @@ add_executable(projekt
         src/projekt/Scene1/Door.h
         src/projekt/Scene1/CameraAsPlayer.cpp
         src/projekt/Scene1/CameraAsPlayer.h
-        src/projekt/Camera.h)
+        src/projekt/Camera.h
+        src/projekt/Scene1/Table.cpp
+        src/projekt/Scene1/Table.h
+        src/projekt/PointLight.h
+        )
 target_link_libraries(projekt ppgso shaders)
 install(TARGETS projekt DESTINATION .)
 
