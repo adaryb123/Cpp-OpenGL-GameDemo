@@ -17,6 +17,7 @@
 #include "src/projekt/Scene1/CameraAsPlayer.h"
 #include "src/projekt/Scene1/Table.h"
 #include "PointLight.h"
+#include "src/projekt/Scene1/Crate.h"
 
 const unsigned int HEIGHT = 1200;
 const unsigned int WIDTH = 1800;
@@ -112,6 +113,11 @@ private:
         tire->position = {0,0,0};
         //tire->rotation = {-1.5,0,0};
         scene1.objects.push_back(move(tire));*/
+
+        auto crate = std::make_unique<Crate>();
+        crate->position = {0,0,0};
+        //tire->rotation = {-1.5,0,0};
+        scene1.objects.push_back(move(crate));
 
         auto light_source = std::make_unique<PointLight>();
        // light_source->position = {5,-2,0};

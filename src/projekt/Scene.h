@@ -4,7 +4,7 @@
 #include <map>
 #include <list>
 
-#include "object.h"
+#include "Object.h"
 #include "src/projekt/Scene2/StaticCamera.h"
 #include "PointLight.h"
 
@@ -31,7 +31,7 @@ public:
     // Lights, in this case using only simple directional diffuse lighting
     glm::vec3 lightDirection;//{-1.0f, -1.0f, -1.0f};
 
-    std::unique_ptr<PointLight> lightSource;
+    std::unique_ptr<Object> lightSource;
 
     // Store cursor state
     float mouseX;

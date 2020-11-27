@@ -13,15 +13,17 @@ uniform mat4 ModelMatrix;
 out vec2 texCoord;
 
 // Normal to pass to the fragment shader
-out vec4 normal;
+out vec3 normal;
 
 void main() {
-// Copy the input to the fragment shader
-texCoord = TexCoord;
+    // Copy the input to the fragment shader
+    texCoord = TexCoord;
 
-// Normal in world coordinates
-normal = normalize(ModelMatrix * vec4(Normal, 0.0f));
+    // Normal in world coordinates
+    //normal = normalize(ModelMatrix * vec4(Normal, 0.0f));
+    //normal = normalize(ModelMatrix * Normal);
+    normal = Normal;
 
-// Calculate the final position on screen
-gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * vec4(Position, 1.0);
+    // Calculate the final position on screen
+    gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * vec4(Position, 1.0);
 }

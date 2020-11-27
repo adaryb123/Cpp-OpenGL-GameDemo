@@ -1,38 +1,36 @@
 #include <glm/gtc/random.hpp>
-#include "Wall.h"
+#include "Crate.h"
 
 #include <shaders/myshader_vert_glsl.h>
 #include <shaders/myshader_frag_glsl.h>
 
 // Static resources
-std::unique_ptr<ppgso::Mesh> Wall::mesh;
-std::unique_ptr<ppgso::Texture> Wall::texture;
-std::unique_ptr<ppgso::Shader> Wall::shader;
+std::unique_ptr<ppgso::Mesh> Crate::mesh;
+std::unique_ptr<ppgso::Texture> Crate::texture;
+std::unique_ptr<ppgso::Shader> Crate::shader;
 
-Wall::Wall() {
-    scale = {12,12,1};
+Crate::Crate() {
+    // Initialize static resources if needed
 
-    //Pearl
-    material.ambient = {	0.25f, 0.20725f, 0.20725f};
-    material.diffuse = {1.0f, 0.829f, 0.829f};
-    material.specular = {0.296648f, 0.296648f, 0.296648f};
-    material.shininess = 0.088f;
-
+    //Brass
+    material.ambient = {0.329412f, 0.223529f, 0.027451f};
+    material.diffuse = {0.780392f, 0.568627f, 0.113725f};
+    material.specular = {0.992157f, 0.941176f, 0.807843f};
+    material.shininess = 0.21794872f;
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(myshader_vert_glsl, myshader_frag_glsl);
-    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Wall.bmp"));
-    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("quad.obj");
+    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Wood.bmp"));
+    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("cube.obj");
 }
 
-bool Wall::update(Scene &scene, float dt) {
+bool Crate::update(Scene &scene, float dt) {
     generateModelMatrix();
     return true;
 }
 
-void Wall::render(Scene &scene) {
-    shader->use();
+void Crate::render(Scene &scene) {
 
-    //Light
+    shader->use();
     auto lightSource1 = dynamic_cast<PointLight*>(scene.lightSource.get());
 
     shader->setUniform("light.position",lightSource1->position);

@@ -25,6 +25,13 @@ public:
     glm::vec3 scale{1,1,1};
     glm::mat4 modelMatrix{1};
 
+    struct material{
+        glm::vec3 ambient;
+        glm::vec3 diffuse;
+        glm::vec3 specular;
+        float shininess;
+    } material;
+
 protected:
     void generateModelMatrix();
 };

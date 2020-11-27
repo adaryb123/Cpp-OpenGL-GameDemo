@@ -7,6 +7,7 @@ void Scene::update(float time) {
     camera->mouseY = mouseY;
     camera->update(time);
 
+    lightSource->update(*this,time);
     // Use iterator to update all objects so we can remove while iterating
     auto i = std::begin(objects);
 
@@ -22,6 +23,7 @@ void Scene::update(float time) {
 
 void Scene::render() {
     // Simply render all objects
+    lightSource->render(*this);
     for ( auto& obj : objects )
         obj->render(*this);
 }
