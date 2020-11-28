@@ -91,8 +91,7 @@ bool Player::update(Scene &scene, float dt) {
     }
 
     auto camera = dynamic_cast<ThirdPersonCamera*>(scene.camera.get());
-    if (camera->followPlayer == true)
-        camera->update(position);
+    camera->playerPosition = position;
     generateModelMatrix();
     return true;
 }

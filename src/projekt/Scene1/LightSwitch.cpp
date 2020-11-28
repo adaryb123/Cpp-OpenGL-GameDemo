@@ -28,8 +28,8 @@ bool LightSwitch::update(Scene &scene, float dt) {
     if (distance(player->position,position) < 3.5)
     {
         if(scene.keyboard[GLFW_KEY_F] && abs(player->front.x) < 0.75){
-            auto lightSource = dynamic_cast<PointLight*>(scene.lightSource.get());
-            lightSource->changeColor();
+            auto lightSource1 = dynamic_cast<PointLight*>(scene.pointLights.front().get());
+            lightSource1->changeColor();
         }
     }
 
@@ -41,7 +41,7 @@ bool LightSwitch::update(Scene &scene, float dt) {
 void LightSwitch::render(Scene &scene) {
 
     shader->use();
-    auto lightSource1 = dynamic_cast<PointLight*>(scene.lightSource.get());
+    auto lightSource1 = dynamic_cast<PointLight*>(scene.pointLights.front().get());
 
     shader->setUniform("light.position",lightSource1->position);
     shader->setUniform("light.color",lightSource1->color);

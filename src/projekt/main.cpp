@@ -35,16 +35,6 @@ private:
         scene2.objects.clear();
 
         auto camera = std::make_unique<ThirdPersonCamera>(60.0f, 1.0f, 0.1f, 100.0f);
-        //as was before
-       // camera->position = {0.0,-10.0,-10.0};
-      //  camera->front = {0.0,1.0,1.0};
-        //mode from behind      --this will animate
-        camera->position = {0.0,-12.0,-5.0};
-        camera->front = {0.0,2.0,1.0};
-        camera->followPlayer = true;
-        //mode from up
-        //camera->position = {0.0,-2.5,-15.0};
-        //camera->front = {0.0,0.15,1.0};
         scene2.camera = move(camera);
 
         scene2.objects.push_back(std::make_unique<Sky>());
@@ -128,7 +118,7 @@ private:
         auto light_source = std::make_unique<PointLight>();
        // light_source->position = {5,-2,0};
        // light_source->color = {-1.5,0,0};
-        scene1.lightSource = move(light_source);
+        scene1.pointLights.push_back(move(light_source));
         //scene1.objects.push_back(move(light_source));
 
         auto lightswitch= std::make_unique<LightSwitch>();
@@ -154,8 +144,8 @@ public:
 
         // Disable cursor
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        current_scene = 1;
-        initScene1();
+        current_scene = 2;
+        initScene2();
     }
     void onKey(int key, int scanCode, int action, int mods) override {
         scene1.keyboard[key] = action;

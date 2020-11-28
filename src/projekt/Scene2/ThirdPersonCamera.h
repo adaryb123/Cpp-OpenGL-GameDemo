@@ -11,7 +11,10 @@ public:
     ThirdPersonCamera(float fow = 45.0f, float ratio = 1.0f, float near = 0.1f, float far = 10.0f);
     void update(float time);
 
-    bool followPlayer = false;
+    //bool followPlayer = false;
+    int cameraMode = 0;
+
+    glm::vec3 playerPosition;
 
     void update(glm::vec3 position);
 };

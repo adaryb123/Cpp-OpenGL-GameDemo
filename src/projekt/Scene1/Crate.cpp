@@ -31,7 +31,7 @@ bool Crate::update(Scene &scene, float dt) {
 void Crate::render(Scene &scene) {
 
     shader->use();
-    auto lightSource1 = dynamic_cast<PointLight*>(scene.lightSource.get());
+    auto lightSource1 = dynamic_cast<PointLight*>(scene.pointLights.front().get());
 
     shader->setUniform("light.position",lightSource1->position);
     shader->setUniform("light.color",lightSource1->color);

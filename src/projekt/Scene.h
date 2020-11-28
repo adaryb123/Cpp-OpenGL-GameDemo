@@ -31,7 +31,9 @@ public:
     // Lights, in this case using only simple directional diffuse lighting
     glm::vec3 lightDirection;//{-1.0f, -1.0f, -1.0f};
 
-    std::unique_ptr<Object> lightSource;
+    //std::unique_ptr<Object> lightSource;
+    std::list< std::unique_ptr<Object> > pointLights;
+
 
     // Store cursor state
     float mouseX;
