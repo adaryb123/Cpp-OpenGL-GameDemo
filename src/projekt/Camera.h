@@ -16,8 +16,8 @@ public:
 
     // Camera properties
     std::map< int, int > keyboard;
-    GLfloat mouseX;
-    GLfloat mouseY;
+    float mouseX;
+    float mouseY;
     glm::vec3 position = {0,0,0};
     glm::vec3 front = {0,0,1};
     glm::vec3 up = {0,1,0};

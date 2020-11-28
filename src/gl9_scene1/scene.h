@@ -34,8 +34,8 @@ class Scene {
      */
     std::vector<Object*> intersect(const glm::vec3 &position, const glm::vec3 &direction);
 
-    // StaticCamera object
-    std::unique_ptr<StaticCamera> camera;
+    // ThirdPersonCamera object
+    std::unique_ptr<ThirdPersonCamera> camera;
 
     // All objects to be rendered in scene
     std::list< std::unique_ptr<Object> > objects;

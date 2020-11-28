@@ -26,10 +26,10 @@ public:
     glm::mat4 modelMatrix{1};
 
     struct material{
-        glm::vec3 ambient;
-        glm::vec3 diffuse;
-        glm::vec3 specular;
-        float shininess;
+        glm::vec3 ambient{1,1,1};
+        glm::vec3 diffuse{1,1,1};
+        glm::vec3 specular{1,1,1};
+        float shininess = 1.0;
     } material;
 
 protected:

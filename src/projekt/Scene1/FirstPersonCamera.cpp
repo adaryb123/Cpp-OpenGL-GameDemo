@@ -1,15 +1,15 @@
 #include <glm/glm.hpp>
 
-#include "CameraAsPlayer.h"
+#include "FirstPersonCamera.h"
 
 
-CameraAsPlayer::CameraAsPlayer(float fow, float ratio, float near, float far) {
+FirstPersonCamera::FirstPersonCamera(float fow, float ratio, float near, float far) {
     updateCameraVectors();
     float fowInRad = (ppgso::PI/180.0f) * fow;
     projectionMatrix = glm::perspective(fowInRad, ratio, near, far);
 }
 
-void CameraAsPlayer::update(float dt) {
+void FirstPersonCamera::update(float dt) {
     processKeyboardMovement(dt);
     processMouseMovement(dt);
     updateCameraVectors();
@@ -17,7 +17,7 @@ void CameraAsPlayer::update(float dt) {
     viewMatrix = lookAt(position, position + front, up);
 }
 
-void CameraAsPlayer::processKeyboardMovement(float dt)
+void FirstPersonCamera::processKeyboardMovement(float dt)
 {
     if(keyboard[GLFW_KEY_LEFT]) {
         this->position -= this->right * this->movementSpeed * dt;
@@ -33,7 +33,7 @@ void CameraAsPlayer::processKeyboardMovement(float dt)
     }
 }
 
-void CameraAsPlayer::processMouseMovement(float dt)
+void FirstPersonCamera::processMouseMovement(float dt)
 {
     if (this->firstMouse == true)
     {
@@ -64,7 +64,7 @@ void CameraAsPlayer::processMouseMovement(float dt)
         this->yaw = 0.0f;
 }
 
-void CameraAsPlayer::updateCameraVectors()
+void FirstPersonCamera::updateCameraVectors()
 {
     this->front.x = static_cast<float>(cos(glm::radians(this->yaw)) * cos(glm::radians(this->pitch)));
     this->front.y = static_cast<float>(sin(glm::radians(this->pitch)));

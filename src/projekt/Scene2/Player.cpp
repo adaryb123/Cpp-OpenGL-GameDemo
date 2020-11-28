@@ -5,6 +5,7 @@
 #include "TrafficCone.h"
 #include "src/projekt/Scene2/Magnet.h"
 #include "windows.h"
+#include "ThirdPersonCamera.h"
 
 #include <shaders/diffuse_vert_glsl.h>
 #include <shaders/diffuse_frag_glsl.h>
@@ -50,7 +51,7 @@ bool Player::update(Scene &scene, float dt) {
         if(tire) {
             if (distance(position, tire->position) < 1) {                   //domysliet
                 scene.stopAnimation = true;
-                Sleep(1000);
+                //Sleep(1000);
                 scene.stopAnimation = false;
             }
         }
@@ -59,7 +60,7 @@ bool Player::update(Scene &scene, float dt) {
         if(trafficCone) {
             if (distance(position, trafficCone->position) < 1) {            //domysliet
                 scene.stopAnimation = true;
-                Sleep(1000);
+               // Sleep(1000);
                 scene.stopAnimation = false;
             }
         }
@@ -88,6 +89,10 @@ bool Player::update(Scene &scene, float dt) {
         position -= external_force *dt;
         under_force = false;
     }
+
+    auto camera = dynamic_cast<ThirdPersonCamera*>(scene.camera.get());
+    if (camera->followPlayer == true)
+        camera->update(position);
     generateModelMatrix();
     return true;
 }

@@ -5,7 +5,7 @@
 #include <ppgso/ppgso.h>
 #include <src/projekt/Scene2/Tire.h>
 
-#include "src/projekt/Scene2/StaticCamera.h"
+#include "src/projekt/Scene2/ThirdPersonCamera.h"
 #include "scene.h"
 #include "src/projekt/Scene2/Player.h"
 #include "src/projekt/Scene2/Road.h"
@@ -14,10 +14,11 @@
 #include "src/projekt/Scene2/Sky.h"
 #include "src/projekt/Scene1/Wall.h"
 #include "src/projekt/Scene1/Door.h"
-#include "src/projekt/Scene1/CameraAsPlayer.h"
+#include "src/projekt/Scene1/FirstPersonCamera.h"
 #include "src/projekt/Scene1/Table.h"
 #include "PointLight.h"
 #include "src/projekt/Scene1/Crate.h"
+#include "src/projekt/Scene1/LightSwitch.h"
 
 const unsigned int HEIGHT = 1200;
 const unsigned int WIDTH = 1800;
@@ -33,9 +34,17 @@ private:
         current_scene = 2;
         scene2.objects.clear();
 
-        auto camera = std::make_unique<StaticCamera>(60.0f, 1.0f, 0.1f, 100.0f);
-        camera->position = {0.0,-10.0,-10.0};
-        camera->front = {0.0,1.0,1.0};
+        auto camera = std::make_unique<ThirdPersonCamera>(60.0f, 1.0f, 0.1f, 100.0f);
+        //as was before
+       // camera->position = {0.0,-10.0,-10.0};
+      //  camera->front = {0.0,1.0,1.0};
+        //mode from behind      --this will animate
+        camera->position = {0.0,-12.0,-5.0};
+        camera->front = {0.0,2.0,1.0};
+        camera->followPlayer = true;
+        //mode from up
+        //camera->position = {0.0,-2.5,-15.0};
+        //camera->front = {0.0,0.15,1.0};
         scene2.camera = move(camera);
 
         scene2.objects.push_back(std::make_unique<Sky>());
@@ -59,12 +68,14 @@ private:
         auto player = std::make_unique<Player>();
         player->position.y = -6;
         scene2.objects.push_back(move(player));
+
+        scene2.lightDirection = {-1.0f, -1.0f, -1.0f};
     }
     void initScene1() {
         current_scene = 1;
         scene1.objects.clear();
 
-        auto camera = std::make_unique<CameraAsPlayer>(60.0f, 1.0f, 0.1f, 100.0f);
+        auto camera = std::make_unique<FirstPersonCamera>(60.0f, 1.0f, 0.1f, 100.0f);
         camera->position = {0.0,0.0,-1.0};
         camera->front = {0.0,0.0,1.0};
         scene1.camera = move(camera);
@@ -109,11 +120,6 @@ private:
         table->rotation = {-1.5,0,0};
         scene1.objects.push_back(move(table));
 
-        /*auto tire = std::make_unique<Tire>();
-        tire->position = {0,0,0};
-        //tire->rotation = {-1.5,0,0};
-        scene1.objects.push_back(move(tire));*/
-
         auto crate = std::make_unique<Crate>();
         crate->position = {0,0,0};
         //tire->rotation = {-1.5,0,0};
@@ -125,7 +131,10 @@ private:
         scene1.lightSource = move(light_source);
         //scene1.objects.push_back(move(light_source));
 
-        scene1.lightDirection = {-1.0f, -1.0f, -1.0f};
+        auto lightswitch= std::make_unique<LightSwitch>();
+        lightswitch->position = {3,1.0,-9};
+        lightswitch->rotation = {-1.5,3,0};
+        scene1.objects.push_back(move(lightswitch));
     }
 
 public:

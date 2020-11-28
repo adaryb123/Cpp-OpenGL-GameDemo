@@ -1,5 +1,5 @@
 #include "Scene.h"
-#include "src/projekt/Scene1/CameraAsPlayer.h"
+#include "src/projekt/Scene1/FirstPersonCamera.h"
 
 void Scene::update(float time) {
     camera->keyboard = keyboard;

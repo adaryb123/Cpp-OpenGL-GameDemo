@@ -1,34 +1,44 @@
 #include <glm/gtc/random.hpp>
-#include "Crate.h"
+#include "LightSwitch.h"
+#include "FirstPersonCamera.h"
 
 #include <shaders/myshader_vert_glsl.h>
 #include <shaders/myshader_frag_glsl.h>
+/*
+#include <shaders/texture_vert_glsl.h>
+#include <shaders/texture_frag_glsl.h>*/
 
 // Static resources
-std::unique_ptr<ppgso::Mesh> Crate::mesh;
-std::unique_ptr<ppgso::Texture> Crate::texture;
-std::unique_ptr<ppgso::Shader> Crate::shader;
+std::unique_ptr<ppgso::Mesh> LightSwitch::mesh;
+std::unique_ptr<ppgso::Texture> LightSwitch::texture;
+std::unique_ptr<ppgso::Shader> LightSwitch::shader;
 
-Crate::Crate() {
+LightSwitch::LightSwitch() {
     // Initialize static resources if needed
-
-    //Brass
-    material.ambient = {0.329412f, 0.223529f, 0.027451f};
-    material.diffuse = {0.780392f, 0.568627f, 0.113725f};
-    material.specular = {0.992157f, 0.941176f, 0.807843f};
-    material.shininess = 0.21794872f;
+    //scale = {0.005,0.005,0.005};
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(myshader_vert_glsl, myshader_frag_glsl);
-    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Wood.bmp"));
-    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("cube.obj");
+    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("lightswitch.bmp"));
+    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("lightswitch.obj");
 }
 
-bool Crate::update(Scene &scene, float dt) {
+bool LightSwitch::update(Scene &scene, float dt) {
+
+    auto player = dynamic_cast<FirstPersonCamera*>(scene.camera.get());
+    if (distance(player->position,position) < 3.5)
+    {
+        if(scene.keyboard[GLFW_KEY_F] && abs(player->front.x) < 0.75){
+            auto lightSource = dynamic_cast<PointLight*>(scene.lightSource.get());
+            lightSource->changeColor();
+        }
+    }
+
+
     generateModelMatrix();
     return true;
 }
 
-void Crate::render(Scene &scene) {
+void LightSwitch::render(Scene &scene) {
 
     shader->use();
     auto lightSource1 = dynamic_cast<PointLight*>(scene.lightSource.get());
@@ -38,9 +48,6 @@ void Crate::render(Scene &scene) {
     shader->setUniform("light.ambient",  lightSource1->ambient);
     shader->setUniform("light.diffuse",  lightSource1->diffuse);
     shader->setUniform("light.specular", lightSource1->specular);
-    shader->setUniform("light.constant", lightSource1->constant);
-    shader->setUniform("light.linear", lightSource1->linear);
-    shader->setUniform("light.quadratic", lightSource1->quadratic);
 
     //Material
     shader->setUniform("material.ambient", material.ambient);
@@ -57,4 +64,5 @@ void Crate::render(Scene &scene) {
     shader->setUniform("ModelMatrix", modelMatrix);
     shader->setUniform("Texture", *texture);
     mesh->render();
+
 }

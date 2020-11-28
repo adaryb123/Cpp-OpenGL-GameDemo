@@ -1,6 +1,6 @@
 #include <glm/gtc/random.hpp>
 #include "Door.h"
-#include "CameraAsPlayer.h"
+#include "FirstPersonCamera.h"
 
 #include <shaders/texture_vert_glsl.h>
 #include <shaders/texture_frag_glsl.h>
@@ -20,7 +20,7 @@ Door::Door() {
 
 bool Door::update(Scene &scene, float dt) {
 
-    auto player = dynamic_cast<CameraAsPlayer*>(scene.camera.get());
+    auto player = dynamic_cast<FirstPersonCamera*>(scene.camera.get());
     if (distance(player->position,position) < 3.5)
     {
         if(scene.keyboard[GLFW_KEY_F] && abs(player->front.x) < 0.75){

@@ -53,7 +53,7 @@ const Hit noHit = { INF, {0,0,0}, {0,0,0}, { {0,0,0}, {0,0,0}, 0 } };
 /*!
  * Structure representing a simple camera that is composed on position, up, back and right vectors
  */
-struct StaticCamera {
+struct ThirdPersonCamera {
   glm::dvec3 position, back, up, right;
 
   /*!
@@ -65,7 +65,7 @@ struct StaticCamera {
  * @return Ray for the giver viewport position with small random deviation applied to support multi-sampling
  */
   Ray generateRay(int x, int y, int width, int height) const {
-    // StaticCamera deltas
+    // ThirdPersonCamera deltas
     glm::dvec3 vdu = 2.0 * right / (double)width;
     glm::dvec3 vdv = 2.0 * -up / (double)height;
 
@@ -150,7 +150,7 @@ inline glm::dvec3 RandomDome(const glm::dvec3 &normal) {
  * Structure to represent the scene/world to render
  */
 struct World {
-  StaticCamera camera;
+  ThirdPersonCamera camera;
   std::vector<Light> lights;
   std::vector<Sphere> spheres;
 
@@ -237,7 +237,7 @@ int main() {
 
   // World to render
   const World world = {
-      { // StaticCamera
+      { // ThirdPersonCamera
           {  0,   0, 25}, // pos
           {  0,   0,  1}, // back
           {  0,  .5,  0}, // up

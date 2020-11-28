@@ -5,7 +5,7 @@
 #include <list>
 
 #include "Object.h"
-#include "src/projekt/Scene2/StaticCamera.h"
+#include "Camera.h"
 #include "PointLight.h"
 
 /*
@@ -19,7 +19,7 @@ public:
     void update(float time);
     void render();
 
-    // StaticCamera object
+    // ThirdPersonCamera object
     std::unique_ptr<Camera> camera;
 
     // All objects to be rendered in scene

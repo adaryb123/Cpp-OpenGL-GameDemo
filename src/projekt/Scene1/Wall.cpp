@@ -40,6 +40,9 @@ void Wall::render(Scene &scene) {
     shader->setUniform("light.ambient",  lightSource1->ambient);
     shader->setUniform("light.diffuse",  lightSource1->diffuse);
     shader->setUniform("light.specular", lightSource1->specular);
+    shader->setUniform("light.constant", lightSource1->constant);
+    shader->setUniform("light.linear", lightSource1->linear);
+    shader->setUniform("light.quadratic", lightSource1->quadratic);
 
     //Material
     shader->setUniform("material.ambient", material.ambient);

@@ -221,8 +221,8 @@ install(TARGETS task7_particles DESTINATION .)
 # projekt
 add_executable(projekt
         src/projekt/main.cpp
-        src/projekt/Scene2/StaticCamera.cpp
-        src/projekt/Scene2/StaticCamera.h
+        src/projekt/Scene2/ThirdPersonCamera.cpp
+        src/projekt/Scene2/ThirdPersonCamera.h
         src/projekt/Scene2/Player.cpp
         src/projekt/Scene2/Player.h
         src/projekt/Scene.cpp
@@ -248,8 +248,8 @@ add_executable(projekt
         src/projekt/Scene1/Wall.h
         src/projekt/Scene1/Door.cpp
         src/projekt/Scene1/Door.h
-        src/projekt/Scene1/CameraAsPlayer.cpp
-        src/projekt/Scene1/CameraAsPlayer.h
+        src/projekt/Scene1/FirstPersonCamera.cpp
+        src/projekt/Scene1/FirstPersonCamera.h
         src/projekt/Camera.h
         src/projekt/Scene1/Table.cpp
         src/projekt/Scene1/Table.h
@@ -257,7 +257,7 @@ add_executable(projekt
         src/projekt/Scene1/Crate.cpp
         src/projekt/Scene1/Crate.h
         src/projekt/PointLight.cpp
-        src/projekt/PointLight.h)
+        src/projekt/PointLight.h src/projekt/Scene1/LightSwitch.cpp src/projekt/Scene1/LightSwitch.h)
 target_link_libraries(projekt ppgso shaders)
 install(TARGETS projekt DESTINATION .)
 
