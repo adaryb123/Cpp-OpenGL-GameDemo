@@ -11,7 +11,9 @@ std::unique_ptr<ppgso::Shader> Crate::shader;
 
 Crate::Crate() {
     // Initialize static resources if needed
-
+    scale= {1.5,1.5,1.5};
+   // scale = {0.2,0.2,0.2};
+   // rotation = {1.5,0,0};
     //Brass
     material.ambient = {0.329412f, 0.223529f, 0.027451f};
     material.diffuse = {0.780392f, 0.568627f, 0.113725f};
@@ -41,6 +43,17 @@ void Crate::render(Scene &scene) {
     shader->setUniform("light.constant", lightSource1->constant);
     shader->setUniform("light.linear", lightSource1->linear);
     shader->setUniform("light.quadratic", lightSource1->quadratic);
+
+    auto lightSource2 = dynamic_cast<PointLight*>(scene.pointLights.back().get());
+
+    shader->setUniform("light2.position",lightSource2->position);
+    shader->setUniform("light2.color",lightSource2->color);
+    shader->setUniform("light2.ambient",  lightSource2->ambient);
+    shader->setUniform("light2.diffuse",  lightSource2->diffuse);
+    shader->setUniform("light2.specular", lightSource2->specular);
+    shader->setUniform("light2.constant", lightSource2->constant);
+    shader->setUniform("light2.linear", lightSource2->linear);
+    shader->setUniform("light2.quadratic", lightSource2->quadratic);
 
     //Material
     shader->setUniform("material.ambient", material.ambient);

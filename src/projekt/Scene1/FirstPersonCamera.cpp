@@ -13,7 +13,17 @@ void FirstPersonCamera::update(float dt) {
     processKeyboardMovement(dt);
     processMouseMovement(dt);
     updateCameraVectors();
+
     position.y = 1;
+    if (position.x > 9)
+        position.x = 9;
+    else if (position.x < -9)
+        position.x = -9;
+    else if (position.z > 9)
+        position.z = 9;
+    else if (position.z < -9)
+        position.z = -9;
+
     viewMatrix = lookAt(position, position + front, up);
 }
 

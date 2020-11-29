@@ -9,18 +9,20 @@ std::unique_ptr<ppgso::Mesh> PointLight::mesh;
 std::unique_ptr<ppgso::Shader> PointLight::shader;
 
 PointLight::PointLight() {
-    scale = {0.2,0.2,0.2};
-    position = {8.0,8.0,8.0};
+    scale = {0.4,0.4,0.4};
+    position = {0,4.0,0};
    // position = {0.0,4.0,0.0};
 
     color = {1.0,1.0,1.0};
     ambient = {0.2f, 0.2f, 0.2f};
+   // ambient = {1,1,1};
     diffuse  = {0.5f, 0.5f, 0.5f};
+    //diffuse = {1,1,1};
     specular = {1.0f, 1.0f, 1.0f};
 
     constant = 1.0f;
-    linear = 0.022f;
-    quadratic = 0.0019f;
+    linear = 0.007f;
+    quadratic = 0.0002f;
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(light_cube_vert_glsl, light_cube_frag_glsl);
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("cube.obj");

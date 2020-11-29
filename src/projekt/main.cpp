@@ -4,6 +4,8 @@
 
 #include <ppgso/ppgso.h>
 #include <src/projekt/Scene2/Tire.h>
+#include <src/projekt/Scene1/Sphere.h>
+#include <src/projekt/Scene1/Barrel.h>
 
 #include "src/projekt/Scene2/ThirdPersonCamera.h"
 #include "scene.h"
@@ -16,7 +18,7 @@
 #include "src/projekt/Scene1/Door.h"
 #include "src/projekt/Scene1/FirstPersonCamera.h"
 #include "src/projekt/Scene1/Table.h"
-#include "PointLight.h"
+#include "src/projekt/Scene1/PointLight.h"
 #include "src/projekt/Scene1/Crate.h"
 #include "src/projekt/Scene1/LightSwitch.h"
 
@@ -47,19 +49,20 @@ private:
 
         auto right_mantinel = std::make_unique<Mantinel>();
         right_mantinel->position.x = 6.5;
-        right_mantinel->rotation =  {0.0,-1.58,1.65};
+        right_mantinel->rotation =  {0.0,-1.56,1.65};
         scene2.objects.push_back(move(right_mantinel));
 
         auto left_mantinel = std::make_unique<Mantinel>();
         left_mantinel->position.x = -6.5;
-        left_mantinel->rotation = {0.0,-1.58,1.45};
+        left_mantinel->rotation = {0,-1.56,1.45};
         scene2.objects.push_back(move(left_mantinel));
 
         auto player = std::make_unique<Player>();
         player->position.y = -6;
         scene2.objects.push_back(move(player));
 
-        scene2.lightDirection = {-1.0f, -1.0f, -1.0f};
+        scene2.lightDirection = {-3.0, -2.0f, -2.0f};
+
     }
     void initScene1() {
         current_scene = 1;
@@ -82,7 +85,7 @@ private:
 
         auto wall3 = std::make_unique<Wall>();      //back
         wall3->position = {0,1,10};
-        wall3->rotation = {3,0,0};
+        wall3->rotation = {3.13,0,0};
         scene1.objects.push_back(move(wall3));
 
         auto wall4 = std::make_unique<Wall>();      //up
@@ -111,20 +114,37 @@ private:
         scene1.objects.push_back(move(table));
 
         auto crate = std::make_unique<Crate>();
-        crate->position = {0,0,0};
+        crate->position = {-3,-1,2};
         //tire->rotation = {-1.5,0,0};
         scene1.objects.push_back(move(crate));
 
-        auto light_source = std::make_unique<PointLight>();
-       // light_source->position = {5,-2,0};
-       // light_source->color = {-1.5,0,0};
-        scene1.pointLights.push_back(move(light_source));
-        //scene1.objects.push_back(move(light_source));
+        auto barrel = std::make_unique<Barrel>();
+        barrel->position = {-3,0.7,-1};
+        //tire->rotation = {-1.5,0,0};
+        scene1.objects.push_back(move(barrel));
+
+        auto light_source1 = std::make_unique<PointLight>();
+        light_source1->position = {9.7,9.7,0};
+        scene1.pointLights.push_back(move(light_source1));
+        auto light_source2 = std::make_unique<PointLight>();
+        light_source2->position = {-9.7,9.7,0};
+        scene1.pointLights.push_back(move(light_source2));
 
         auto lightswitch= std::make_unique<LightSwitch>();
         lightswitch->position = {3,1.0,-9};
         lightswitch->rotation = {-1.5,3,0};
         scene1.objects.push_back(move(lightswitch));
+
+        auto sphere1 = std::make_unique<Sphere>();
+        sphere1->sphereNum = 1;
+        auto sphere2 = std::make_unique<Sphere>();
+        sphere2->sphereNum = 2;
+        auto sphere3 = std::make_unique<Sphere>();
+        sphere3->sphereNum = 2;
+        sphere2->child = move(sphere3);
+        sphere1->child = move(sphere2);
+        scene1.objects.push_back(move(sphere1));
+
     }
 
 public:
@@ -144,8 +164,8 @@ public:
 
         // Disable cursor
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        current_scene = 2;
-        initScene2();
+        current_scene = 1;
+        initScene1();
     }
     void onKey(int key, int scanCode, int action, int mods) override {
         scene1.keyboard[key] = action;

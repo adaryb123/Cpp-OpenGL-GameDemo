@@ -13,9 +13,9 @@ std::unique_ptr<ppgso::Shader> Magnet::shader;
 
 Magnet::Magnet() {
     // Set random scale speed and rotation
-    rotation = {0.0f,1.5f,0.0f};
+    rotation = {0.0f,1.8f,0.3f};
     speed = {0.0f,-6.0f,0};
-    scale *= 0.30f;
+    scale *= 0.20f;
 
     // Initialize static resources if needed
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
@@ -37,7 +37,7 @@ bool Magnet::update(Scene &scene, float dt) {
 }
 
 void Magnet::render(Scene &scene) {
-    glClear(GL_DEPTH_BUFFER_BIT);
+    //glClear(GL_DEPTH_BUFFER_BIT);
 
     shader->use();
 

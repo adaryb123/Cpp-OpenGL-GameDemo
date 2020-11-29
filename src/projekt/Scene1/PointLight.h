@@ -1,8 +1,8 @@
 #pragma once
 
 #include <mesh.h>
-#include "Object.h"
-#include "Scene.h"
+#include "src/projekt/Object.h"
+#include "src/projekt/Scene.h"
 
 class PointLight : public Object{
 

@@ -11,10 +11,10 @@ std::unique_ptr<ppgso::Shader> Road::shader;
 
 Road::Road() {
     // Set random scale speed and rotation
-    position.y += 2.0f;
+    position.y += 18.0f;
     rotation = {3.15f,-3.15f,0.0f};
-    scale *= 6.0f;
-    scale.y *= 1.8f;
+    scale *= 6.1f;
+    scale.y *= 5.0f;
 
     // Initialize static resources if needed
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);

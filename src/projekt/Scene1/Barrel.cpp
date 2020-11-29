@@ -1,38 +1,37 @@
 #include <glm/gtc/random.hpp>
-#include "Wall.h"
+#include "Barrel.h"
 
 #include <shaders/myshader_vert_glsl.h>
 #include <shaders/myshader_frag_glsl.h>
 
 // Static resources
-std::unique_ptr<ppgso::Mesh> Wall::mesh;
-std::unique_ptr<ppgso::Texture> Wall::texture;
-std::unique_ptr<ppgso::Shader> Wall::shader;
+std::unique_ptr<ppgso::Mesh> Barrel::mesh;
+std::unique_ptr<ppgso::Texture> Barrel::texture;
+std::unique_ptr<ppgso::Shader> Barrel::shader;
 
-Wall::Wall() {
-    scale = {12,12,1};
-
-    //Pearl
-    material.ambient = {	0.25f, 0.20725f, 0.20725f};
-    material.diffuse = {1.0f, 0.829f, 0.829f};
-    material.specular = {0.296648f, 0.296648f, 0.296648f};
-    material.shininess = 0.088f;
-
+Barrel::Barrel() {
+    // Initialize static resources if needed
+    scale = {0.1,0.1,0.15};
+    rotation = {1.6,0,1.5};
+    //Silver
+    material.ambient = {0.19225f, 0.19225f, 0.19225f};
+    material.diffuse = {0.50754f, 0.50754f, 0.50754f};
+    material.specular = {0.508273f, 0.508273f, 0.508273f};
+    material.shininess = 0.4f;
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(myshader_vert_glsl, myshader_frag_glsl);
-    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Wall.bmp"));
-    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("quad.obj");
+    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("OilBarrel.bmp"));
+    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("OilBarrel.obj");
 }
 
-bool Wall::update(Scene &scene, float dt) {
+bool Barrel::update(Scene &scene, float dt) {
     generateModelMatrix();
     return true;
 }
 
-void Wall::render(Scene &scene) {
-    shader->use();
+void Barrel::render(Scene &scene) {
 
-    //Light
+    shader->use();
     auto lightSource1 = dynamic_cast<PointLight*>(scene.pointLights.front().get());
 
     shader->setUniform("light.position",lightSource1->position);

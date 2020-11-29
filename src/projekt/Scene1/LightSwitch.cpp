@@ -16,6 +16,10 @@ std::unique_ptr<ppgso::Shader> LightSwitch::shader;
 LightSwitch::LightSwitch() {
     // Initialize static resources if needed
     //scale = {0.005,0.005,0.005};
+    material.ambient = {0.0969755f,0.093313708f,0.059977125f};                  //stale to je velmi svetle
+    material.diffuse = {0.443168417f,0.433226705f,0.307670788f};
+    material.specular = {0.507886491f,0.520246116f,0.433642574f};
+    material.shininess = 0.23644578f;
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(myshader_vert_glsl, myshader_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("lightswitch.bmp"));
@@ -30,9 +34,10 @@ bool LightSwitch::update(Scene &scene, float dt) {
         if(scene.keyboard[GLFW_KEY_F] && abs(player->front.x) < 0.75){
             auto lightSource1 = dynamic_cast<PointLight*>(scene.pointLights.front().get());
             lightSource1->changeColor();
+            auto lightSource2 = dynamic_cast<PointLight*>(scene.pointLights.back().get());
+            lightSource2->changeColor();
         }
     }
-
 
     generateModelMatrix();
     return true;
@@ -48,6 +53,20 @@ void LightSwitch::render(Scene &scene) {
     shader->setUniform("light.ambient",  lightSource1->ambient);
     shader->setUniform("light.diffuse",  lightSource1->diffuse);
     shader->setUniform("light.specular", lightSource1->specular);
+    shader->setUniform("light.constant", lightSource1->constant);
+    shader->setUniform("light.linear", lightSource1->linear);
+    shader->setUniform("light.quadratic", lightSource1->quadratic);
+
+    auto lightSource2 = dynamic_cast<PointLight*>(scene.pointLights.back().get());
+
+    shader->setUniform("light2.position",lightSource2->position);
+    shader->setUniform("light2.color",lightSource2->color);
+    shader->setUniform("light2.ambient",  lightSource2->ambient);
+    shader->setUniform("light2.diffuse",  lightSource2->diffuse);
+    shader->setUniform("light2.specular", lightSource2->specular);
+    shader->setUniform("light2.constant", lightSource2->constant);
+    shader->setUniform("light2.linear", lightSource2->linear);
+    shader->setUniform("light2.quadratic", lightSource2->quadratic);
 
     //Material
     shader->setUniform("material.ambient", material.ambient);

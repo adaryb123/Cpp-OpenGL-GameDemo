@@ -6,7 +6,7 @@
 
 #include "Object.h"
 #include "Camera.h"
-#include "PointLight.h"
+#include "src/projekt/Scene1/PointLight.h"
 
 /*
  * Scene is an object that will aggregate all scene related data

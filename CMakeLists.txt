@@ -253,11 +253,11 @@ add_executable(projekt
         src/projekt/Camera.h
         src/projekt/Scene1/Table.cpp
         src/projekt/Scene1/Table.h
-        src/projekt/PointLight.h
+        src/projekt/Scene1/PointLight.h
         src/projekt/Scene1/Crate.cpp
         src/projekt/Scene1/Crate.h
-        src/projekt/PointLight.cpp
-        src/projekt/PointLight.h src/projekt/Scene1/LightSwitch.cpp src/projekt/Scene1/LightSwitch.h)
+        src/projekt/Scene1/PointLight.cpp
+        src/projekt/Scene1/PointLight.h src/projekt/Scene1/LightSwitch.cpp src/projekt/Scene1/LightSwitch.h src/projekt/Scene1/Sphere.cpp src/projekt/Scene1/Sphere.h src/projekt/Scene1/Barrel.cpp src/projekt/Scene1/Barrel.h)
 target_link_libraries(projekt ppgso shaders)
 install(TARGETS projekt DESTINATION .)
 

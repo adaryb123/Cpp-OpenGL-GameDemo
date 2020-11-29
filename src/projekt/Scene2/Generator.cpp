@@ -36,14 +36,15 @@ bool Generator::update(Scene &scene, float dt) {
         else if (object_type == 2) {
             auto obj = std::make_unique<Magnet>();
             obj->position = position;
-            obj->position.x += 8.5f;
-            obj->position.z += 0.5f;
+            obj->position.x += 7.0f;
+            obj->position.z -= 2.8f;
 
             int left = glm::linearRand(0, 1);
             if (left == 0)
             {
                 obj->position.x *= -1;
                 obj->rotation.y *= -1;
+                obj->rotation.z -= 0.8f;
             }
             scene.objects.push_back(move(obj));
             time = 0;
