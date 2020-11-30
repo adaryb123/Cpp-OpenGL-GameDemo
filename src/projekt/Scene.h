@@ -34,6 +34,9 @@ public:
     //std::unique_ptr<Object> lightSource;
     std::list< std::unique_ptr<Object> > pointLights;
 
+    //Wind
+    glm::vec3 wind = {0,0,0};
+    int windDirection = 1;
 
     // Store cursor state
     float mouseX;

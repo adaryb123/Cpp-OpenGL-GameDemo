@@ -34,6 +34,11 @@ void ThirdPersonCamera::update(float dt) {
         float t = (float) glfwGetTime();
         position = {-2*sin(t)+playerPosition.x, 3*cos(t)-4.5,-12.0};
         front = {0.0,0.15,1.0};
+        if (position.x > 4.5)
+            position.x = 4.5;
+        else if (position.x < -4.5)
+            position.x = -4.5;
+
     }
 
     viewMatrix = lookAt(position, position + front, up);

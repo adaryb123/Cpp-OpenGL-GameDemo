@@ -6,6 +6,8 @@
 #include <src/projekt/Scene2/Tire.h>
 #include <src/projekt/Scene1/Sphere.h>
 #include <src/projekt/Scene1/Barrel.h>
+#include <src/projekt/Scene1/ObjectSpawnShuffler.h>
+#include <src/projekt/Scene2/Darkness.h>
 
 #include "src/projekt/Scene2/ThirdPersonCamera.h"
 #include "scene.h"
@@ -21,6 +23,7 @@
 #include "src/projekt/Scene1/PointLight.h"
 #include "src/projekt/Scene1/Crate.h"
 #include "src/projekt/Scene1/LightSwitch.h"
+#include "src/projekt/Scene2/Finish.h"
 
 const unsigned int HEIGHT = 1200;
 const unsigned int WIDTH = 1800;
@@ -43,25 +46,32 @@ private:
 
         scene2.objects.push_back(std::make_unique<Road>());
 
+        scene2.objects.push_back(std::make_unique<Darkness>());
+
+       // scene2.objects.push_back(std::make_unique<Finish>());
+
         auto generator = std::make_unique<Generator>();
-        generator->position.y = 12.5f;
+        generator->position.y = 25.0f;
         scene2.objects.push_back(move(generator));
 
         auto right_mantinel = std::make_unique<Mantinel>();
         right_mantinel->position.x = 6.5;
-        right_mantinel->rotation =  {0.0,-1.56,1.65};
+        right_mantinel->position.y = 17.0;
+        right_mantinel->rotation =  {3.15,-1.56,1.60};
+        right_mantinel->addingOffset = true;
         scene2.objects.push_back(move(right_mantinel));
 
         auto left_mantinel = std::make_unique<Mantinel>();
-        left_mantinel->position.x = -6.5;
-        left_mantinel->rotation = {0,-1.56,1.45};
+        left_mantinel->position.x = -6.0f;
+        left_mantinel->position.y = 17.0;
+        left_mantinel->rotation = {0,-1.56,1.55};
         scene2.objects.push_back(move(left_mantinel));
 
         auto player = std::make_unique<Player>();
         player->position.y = -6;
         scene2.objects.push_back(move(player));
 
-        scene2.lightDirection = {-3.0, -2.0f, -2.0f};
+        scene2.lightDirection = {3.0, -2.0f, -2.0f};
 
     }
     void initScene1() {
@@ -108,26 +118,11 @@ private:
         door->rotation = {1.5,0,3};
         scene1.objects.push_back(move(door));
 
-        auto table = std::make_unique<Table>();
-        table->position = {5,-2,0};
-        table->rotation = {-1.5,0,0};
-        scene1.objects.push_back(move(table));
-
-        auto crate = std::make_unique<Crate>();
-        crate->position = {-3,-1,2};
-        //tire->rotation = {-1.5,0,0};
-        scene1.objects.push_back(move(crate));
-
-        auto barrel = std::make_unique<Barrel>();
-        barrel->position = {-3,0.7,-1};
-        //tire->rotation = {-1.5,0,0};
-        scene1.objects.push_back(move(barrel));
-
         auto light_source1 = std::make_unique<PointLight>();
-        light_source1->position = {9.7,9.7,0};
+        light_source1->position = {9.7,8,0};
         scene1.pointLights.push_back(move(light_source1));
         auto light_source2 = std::make_unique<PointLight>();
-        light_source2->position = {-9.7,9.7,0};
+        light_source2->position = {-9.7,8,0};
         scene1.pointLights.push_back(move(light_source2));
 
         auto lightswitch= std::make_unique<LightSwitch>();
@@ -145,6 +140,22 @@ private:
         sphere1->child = move(sphere2);
         scene1.objects.push_back(move(sphere1));
 
+        auto shuffler = new ObjectSpawnShuffler();
+
+        auto table = std::make_unique<Table>();
+        table->position = {5,-2,0};
+
+        auto crate = std::make_unique<Crate>();
+        crate->position = {-3,-1,2};
+
+        auto barrel = std::make_unique<Barrel>();
+        barrel->position = {-3,0.7,-1};
+
+        shuffler->objects.push_back(move(table));
+        shuffler->objects.push_back(move(crate));
+        shuffler->objects.push_back(move(barrel));
+        shuffler->shuffle(scene1);
+        delete(shuffler);
     }
 
 public:
@@ -164,8 +175,8 @@ public:
 
         // Disable cursor
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        current_scene = 1;
-        initScene1();
+        current_scene = 2;
+        initScene2();
     }
     void onKey(int key, int scanCode, int action, int mods) override {
         scene1.keyboard[key] = action;

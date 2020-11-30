@@ -6,6 +6,7 @@
 #include "src/projekt/Scene2/Magnet.h"
 #include "windows.h"
 #include "ThirdPersonCamera.h"
+#include "Finish.h"
 
 #include <shaders/diffuse_vert_glsl.h>
 #include <shaders/diffuse_frag_glsl.h>
@@ -33,6 +34,16 @@ bool Player::update(Scene &scene, float dt) {
         // Ignore self in scene
         if (obj.get() == this)
             continue;
+
+        auto finish = dynamic_cast<Finish*>(obj.get());
+        if (finish)
+        {
+            if (position.y > finish->position.y) {
+                scene.stopAnimation = true;
+                scene.endScene = true;
+                return true;
+            }
+        }
 
         // If player hits mantinel, he can move no further
         auto mantinel = dynamic_cast<Mantinel*>(obj.get());
@@ -85,6 +96,13 @@ bool Player::update(Scene &scene, float dt) {
         position.x += 10 * dt;
     else if(scene.keyboard[GLFW_KEY_RIGHT])
         position.x -= 10 * dt;
+
+    else if(scene.keyboard[GLFW_KEY_W])
+    {
+        countWithWind = !countWithWind;
+    }
+    if (countWithWind)
+        position += scene.wind * dt;
 
     if (under_force == true)
     {

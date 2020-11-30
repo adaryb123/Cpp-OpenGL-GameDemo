@@ -243,7 +243,6 @@ add_executable(projekt
         src/projekt/Scene2/Magnet.h
         src/projekt/Scene2/Sky.cpp
         src/projekt/Scene2/Sky.h
-        src/projekt/fejkovaKamera.h
         src/projekt/Scene1/Wall.cpp
         src/projekt/Scene1/Wall.h
         src/projekt/Scene1/Door.cpp
@@ -257,7 +256,17 @@ add_executable(projekt
         src/projekt/Scene1/Crate.cpp
         src/projekt/Scene1/Crate.h
         src/projekt/Scene1/PointLight.cpp
-        src/projekt/Scene1/PointLight.h src/projekt/Scene1/LightSwitch.cpp src/projekt/Scene1/LightSwitch.h src/projekt/Scene1/Sphere.cpp src/projekt/Scene1/Sphere.h src/projekt/Scene1/Barrel.cpp src/projekt/Scene1/Barrel.h)
+        src/projekt/Scene1/PointLight.h
+        src/projekt/Scene1/LightSwitch.cpp
+        src/projekt/Scene1/LightSwitch.h
+        src/projekt/Scene1/Sphere.cpp
+        src/projekt/Scene1/Sphere.h
+        src/projekt/Scene1/Barrel.cpp
+        src/projekt/Scene1/Barrel.h
+        src/projekt/Scene1/ObjectSpawnShuffler.cpp
+        src/projekt/Scene1/ObjectSpawnShuffler.h
+        src/projekt/Scene2/Finish.cpp
+        src/projekt/Scene2/Finish.h src/projekt/Scene2/Darkness.cpp src/projekt/Scene2/Darkness.h)
 target_link_libraries(projekt ppgso shaders)
 install(TARGETS projekt DESTINATION .)
 

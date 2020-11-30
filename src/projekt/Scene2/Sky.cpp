@@ -12,7 +12,7 @@ std::unique_ptr<ppgso::Shader> Sky::shader;
 Sky::Sky() {
     // Initialize static resources if needed
     if (!shader) shader = std::make_unique<ppgso::Shader>(texture_vert_glsl, texture_frag_glsl);
-    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Sky.bmp"));
+    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Darkness.bmp"));
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("quad.obj");
 }
 

@@ -13,14 +13,14 @@ std::unique_ptr<ppgso::Shader> Tire::shader;
 
 Tire::Tire() {
     // Set random scale speed and rotation
-    rotation = {0.5f,0.0f,0.0f};
-    rotMomentum = { 0,0,0};
+    rotation = {0.0f,3.12,0.0f};
+    rotMomentum = { 0,0,-6};
     speed = {8.0f,-6.0f,0};
     scale *= 0.10f;
 
     // Initialize static resources if needed
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
-    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Tire.bmp"));
+    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Tire7.bmp"));
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("Tire.obj");
 }
 
@@ -43,6 +43,7 @@ bool Tire::update(Scene &scene, float dt) {
         if (mantinel) {
             if (abs(position.x) >= (abs(mantinel->position.x) - 1)) {
                 speed.x = -speed.x;
+                rotMomentum.z = -rotMomentum.z;
                 if (position.x < 0)
                     position.x += 0.2f;
                 else

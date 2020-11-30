@@ -11,9 +11,7 @@ std::unique_ptr<ppgso::Shader> Crate::shader;
 
 Crate::Crate() {
     // Initialize static resources if needed
-    scale= {1.5,1.5,1.5};
-   // scale = {0.2,0.2,0.2};
-   // rotation = {1.5,0,0};
+    scale= {2,2,2};
     //Brass
     material.ambient = {0.329412f, 0.223529f, 0.027451f};
     material.diffuse = {0.780392f, 0.568627f, 0.113725f};
