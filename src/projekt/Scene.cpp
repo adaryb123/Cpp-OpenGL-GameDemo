@@ -5,7 +5,7 @@ void Scene::update(float dt) {
     //update wind
    // srand (static_cast <unsigned> (10*time(0)));
    // wind.x =  -3.0f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(3.0f-(-3.0f))));
-   wind.x = glm::linearRand(0.0f,3.0f);
+   wind.x = glm::linearRand(0.0f,4.5f);
    int swapWindChance = glm::linearRand(0,100);
    if (swapWindChance > 99)
       windDirection *= -1;

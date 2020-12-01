@@ -7,12 +7,15 @@
 #include "src/projekt/Scene2/Magnet.h"
 #include "Finish.h"
 
+Generator::Generator() {
+    starting_time = glfwGetTime();
+}
 
 bool Generator::update(Scene &scene, float dt) {
     // Accumulate time
     time += dt;
 
-    if (glfwGetTime() > 60 && finish == false){
+    if (glfwGetTime() - starting_time > 60 && finish == false){
         auto obj = std::make_unique<Finish>();
         obj->position.y = position.y;
         scene.objects.push_back(move(obj));

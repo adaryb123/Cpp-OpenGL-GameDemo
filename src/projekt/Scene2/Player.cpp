@@ -22,10 +22,13 @@ Player::Player() {
     rotation.z += 3.2f;
     under_force = false;
 
-    // Initialize static resources if needed
+    // Initialize static resources if need3ed
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("RacingCar.bmp"));
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("RacingCar.obj");
+
+    ySizeConst = 2.5f;
+    xSizeConst = 0.6f;
 }
 
 bool Player::update(Scene &scene, float dt) {
@@ -40,7 +43,7 @@ bool Player::update(Scene &scene, float dt) {
         {
             if (position.y > finish->position.y) {
                 scene.stopAnimation = true;
-                scene.endScene = true;
+               // scene.endScene = true;
                 return true;
             }
         }
@@ -59,26 +62,40 @@ bool Player::update(Scene &scene, float dt) {
         }
         // If player hits an obstacle, game stops for a moment
         auto tire = dynamic_cast<Tire*>(obj.get());
-        if(tire) {
-            if (distance(position, tire->position) < 1) {                   //domysliet
-                if (position.y + 1 <= tire->position.y) {
-                    scene.stopAnimation = true;
-                    Sleep(500);
-                    scene.stopAnimation = false;
+        if(tire && airborne == false) {
+            if (tire->boundingBox.max_y <= boundingBox.min_y && tire->boundingBox.max_y >= boundingBox.max_y)
+                if ((tire->boundingBox.min_x >= boundingBox.max_x && tire->boundingBox.min_x <= boundingBox.min_x ) || (tire->boundingBox.max_x >= boundingBox.max_x && tire->boundingBox.max_x <= boundingBox.min_x))
+                {
+                    if (tire->boundingBox.max_y >=  boundingBox.min_y -0.5)
+                        tire->collide("FRONT");
+                    else {
+                        if (tire->position.x < position.x)
+                            tire->collide("LEFT");
+                        else
+                            tire->collide("RIGHT");
+                    }
                 }
             }
-        }
+
         // If player hits an obstacle, game stops for a moment
         auto trafficCone = dynamic_cast<TrafficCone*>(obj.get());
-        if(trafficCone) {
-            if (distance(position, trafficCone->position) < 1) {            //domysliet
-                scene.stopAnimation = true;
-                Sleep(500);
-                scene.stopAnimation = false;
-            }
+        if(trafficCone && airborne == false && trafficCone->collided == false) {
+
+            if (trafficCone->boundingBox.max_y <= boundingBox.min_y && trafficCone->boundingBox.max_y >= boundingBox.max_y)
+                if ((trafficCone->boundingBox.min_x >= boundingBox.max_x && trafficCone->boundingBox.min_x <= boundingBox.min_x ) || (trafficCone->boundingBox.max_x >= boundingBox.max_x && trafficCone->boundingBox.max_x <= boundingBox.min_x))
+                    {
+                        if (trafficCone->boundingBox.max_y >=  boundingBox.min_y -1.0)
+                            trafficCone->collide("FRONT");
+                        else {
+                            if (trafficCone->position.x < position.x)
+                                trafficCone->collide("LEFT");
+                            else
+                                trafficCone->collide("RIGHT");
+                        }
+                    }
         }
         // Magnet will push the player a bit
-        auto magnet = dynamic_cast<Magnet*>(obj.get());
+        /*auto magnet = dynamic_cast<Magnet*>(obj.get());
         if(magnet) {
             if (magnet->position.y - position.y < 2 && magnet->position.y - position.y > -2) {
                 auto magnet_distance = distance(position, magnet->position);
@@ -89,30 +106,54 @@ bool Player::update(Scene &scene, float dt) {
                         external_force = - external_force;
                 }
             }
-        }
+        }*/
     }
-    // Keyboard controls
+    // Move left and right
     if(scene.keyboard[GLFW_KEY_LEFT])
         position.x += 10 * dt;
     else if(scene.keyboard[GLFW_KEY_RIGHT])
         position.x -= 10 * dt;
 
-    else if(scene.keyboard[GLFW_KEY_W])
+    //Toggle wind
+    if(scene.keyboard[GLFW_KEY_W])
     {
         countWithWind = !countWithWind;
     }
-    if (countWithWind)
+    if (countWithWind == true)
         position += scene.wind * dt;
 
-    if (under_force == true)
+    //Jump
+    if((scene.keyboard[GLFW_KEY_SPACE] || goingUp == true) && falling == false) {
+        if (goingUp == true)
+            position.z -= 10 * dt;
+        else
+            goingUp = true;
+        airborne = true;
+    }
+    if (position.z < -3) {
+        position.z = -3;
+        goingUp = false;
+        falling = true;
+    }
+
+    if (airborne == true && goingUp == false)
+        position += scene.gravity * dt;
+
+    if (position.z > 0) {
+        position.z = 0;
+        airborne = false;
+        falling = false;
+    }
+    /*if (under_force == true)
     {
         position -= external_force *dt;
         under_force = false;
-    }
+    }*/
 
     auto camera = dynamic_cast<ThirdPersonCamera*>(scene.camera.get());
     camera->playerPosition = position;
     generateModelMatrix();
+    updateBoundingBox();
     return true;
 }
 

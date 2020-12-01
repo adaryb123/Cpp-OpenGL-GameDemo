@@ -12,3 +12,10 @@ void Object::generateModelMatrix() {
             * glm::orientate4(rotation)
             * glm::scale(glm::mat4(1.0f), scale);
 }
+
+void Object::updateBoundingBox() {
+    boundingBox.min_y = position.y + ySizeConst;
+    boundingBox.max_y = position.y - ySizeConst;
+    boundingBox.min_x = position.x + xSizeConst;
+    boundingBox.max_x = position.x - xSizeConst;
+}

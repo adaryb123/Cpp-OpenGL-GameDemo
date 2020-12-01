@@ -12,7 +12,10 @@ private:
 
     bool under_force = false;
     glm::vec3 external_force = {0,0,0};
-    bool countWithWind = true;
+    bool countWithWind = false;
+    bool airborne = false;
+    bool goingUp = false;
+    bool falling = false;
 public:
     Player();
     bool update(Scene &scene, float dt) override;

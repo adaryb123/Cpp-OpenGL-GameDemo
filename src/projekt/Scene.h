@@ -6,7 +6,7 @@
 
 #include "Object.h"
 #include "Camera.h"
-#include "src/projekt/Scene1/PointLight.h"
+#include "Scene1/PointLight.h"
 
 /*
  * Scene is an object that will aggregate all scene related data
@@ -37,6 +37,9 @@ public:
     //Wind
     glm::vec3 wind = {0,0,0};
     int windDirection = 1;
+
+    //Gravity
+    glm::vec3 gravity = {0,0,5};
 
     // Store cursor state
     float mouseX;

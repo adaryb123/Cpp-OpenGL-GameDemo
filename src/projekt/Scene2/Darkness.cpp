@@ -12,7 +12,7 @@ std::unique_ptr<ppgso::Shader> Darkness::shader;
 
 Darkness::Darkness() {
     // Set random scale speed and rotation
-    position = {0,35,-1};
+    position = {-0.5,35,-1};
     scale = {15,15,30};
 
     // Initialize static resources if needed

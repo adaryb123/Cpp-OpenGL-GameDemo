@@ -38,6 +38,8 @@ private:
     void initScene2() {
         current_scene = 2;
         scene2.objects.clear();
+        scene2.stopAnimation = false;
+        animate = true;
 
         auto camera = std::make_unique<ThirdPersonCamera>(60.0f, 1.0f, 0.1f, 100.0f);
         scene2.camera = move(camera);
@@ -77,6 +79,7 @@ private:
     void initScene1() {
         current_scene = 1;
         scene1.objects.clear();
+        scene1.endScene = false;
 
         auto camera = std::make_unique<FirstPersonCamera>(60.0f, 1.0f, 0.1f, 100.0f);
         camera->position = {0.0,0.0,-1.0};
@@ -185,7 +188,12 @@ public:
         // Reset
         if (key == GLFW_KEY_R && action == GLFW_PRESS) {
             if (current_scene == 2)
-                 initScene2();
+                initScene2();
+        }
+
+        if (key == GLFW_KEY_B && action == GLFW_PRESS) {
+            if (current_scene == 2)
+                initScene1();
         }
 
         // Pause

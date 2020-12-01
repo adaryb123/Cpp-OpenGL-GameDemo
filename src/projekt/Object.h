@@ -32,6 +32,15 @@ public:
         float shininess = 0.25;
     } material;
 
+    struct boundingBox{
+        float min_x;
+        float min_y;
+        float max_x;
+        float max_y;
+    }boundingBox;
+
+    float ySizeConst;
+    float xSizeConst;
   /*  struct material{
       glm::vec3 ambient{0.0969755f,0.093313708f,0.059977125f};
       glm::vec3 diffuse{0.443168417f,0.433226705f,0.307670788f};
@@ -41,4 +50,5 @@ public:
 
 protected:
     void generateModelMatrix();
+    void updateBoundingBox();
 };

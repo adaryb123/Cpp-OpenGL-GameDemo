@@ -21,9 +21,11 @@ private:
     glm::vec3 rotMomentum;
 
 public:
+    bool collided = false;
     Tire();
     bool update(Scene &scene, float dt) override;
     void render(Scene &scene) override;
+    void collide(std::string collisionType);
 private:
 };
 

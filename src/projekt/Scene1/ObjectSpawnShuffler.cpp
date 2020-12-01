@@ -6,8 +6,8 @@ void ObjectSpawnShuffler::shuffle(Scene& scene){
 
     while (true) {
         for (auto &obj : objects) {
-            obj->position.x =  -7.0 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(7.0-(-7.0))));
-            obj->position.z =  -7.0 + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(7.0-(-7.0))));
+            obj->position.x =  -7.0f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(7.0f-(-7.0f))));
+            obj->position.z =  -7.0f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(7.0f-(-7.0f))));
         }
         bool good = true;
         for (auto &obj1 : objects) {
