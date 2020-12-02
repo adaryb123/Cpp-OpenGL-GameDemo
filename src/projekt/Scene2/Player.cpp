@@ -29,6 +29,8 @@ Player::Player() {
 
     ySizeConst = 2.5f;
     xSizeConst = 0.6f;
+
+    cooldown = glfwGetTime();
 }
 
 bool Player::update(Scene &scene, float dt) {
@@ -117,7 +119,10 @@ bool Player::update(Scene &scene, float dt) {
     //Toggle wind
     if(scene.keyboard[GLFW_KEY_W])
     {
-        countWithWind = !countWithWind;
+        if (glfwGetTime() - cooldown > 0.5) {
+            countWithWind = !countWithWind;
+            cooldown = glfwGetTime();
+        }
     }
     if (countWithWind == true)
         position += scene.wind * dt;

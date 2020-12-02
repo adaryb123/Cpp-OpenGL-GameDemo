@@ -1,4 +1,7 @@
-#include <glm/gtc/random.hpp>
+
+// this object is no longer used;
+
+/*#include <glm/gtc/random.hpp>
 #include "Magnet.h"
 #include "Mantinel.h"
 
@@ -53,3 +56,4 @@ void Magnet::render(Scene &scene) {
     shader->setUniform("Texture", *texture);
     mesh->render();
 }
+*/

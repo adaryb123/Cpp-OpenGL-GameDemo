@@ -10,26 +10,15 @@ std::unique_ptr<ppgso::Texture> Sphere::texture;
 std::unique_ptr<ppgso::Shader> Sphere::shader;
 
 Sphere::Sphere() {
-    // Initialize static resources if needed
-
-    //rotation = {0,0,2};
-    //Brass
-    /*material.ambient = {0.329412f, 0.223529f, 0.027451f};
-    material.diffuse = {0.780392f, 0.568627f, 0.113725f};
-    material.specular = {0.992157f, 0.941176f, 0.807843f};
-    material.shininess = 0.21794872f;*/
-
     if (!shader) shader = std::make_unique<ppgso::Shader>(myshader_vert_glsl, myshader_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Metal.bmp"));
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("sphere.obj");
 }
 
 bool Sphere::update(Scene &scene, float dt) {
-    //generateModelMatrix();
     myUpdate1(dt);
     child->myUpdate2(dt,modelMatrix);
     child->child->myUpdate3(dt,child->modelMatrix);
-
     return true;
 }
 

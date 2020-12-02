@@ -1,4 +1,7 @@
-#pragma once
+
+//this object is no longer used
+
+/*#pragma once
 
 #include <ppgso/ppgso.h>
 
@@ -17,3 +20,4 @@ public:
     bool update(Scene &scene, float dt) override;
     void render(Scene &scene) override;
 };
+*/

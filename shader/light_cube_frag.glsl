@@ -1,5 +1,5 @@
 #version 330 core
-
+//simple shader for the lightsource, its just a glowing cube
 uniform vec3 lightColor;
 
 out vec4 FragColor;

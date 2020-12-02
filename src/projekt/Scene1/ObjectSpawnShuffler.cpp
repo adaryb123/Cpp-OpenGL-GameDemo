@@ -13,7 +13,7 @@ void ObjectSpawnShuffler::shuffle(Scene& scene){
         for (auto &obj1 : objects) {
             for (auto &obj2 : objects) {
                 if (obj1.get() != obj2.get()) {
-                    if (distance(obj1->position, obj2->position) < 2) {
+                    if (distance(obj1->position, obj2->position) < 4) {
                         good = false;
                         break;
                     }

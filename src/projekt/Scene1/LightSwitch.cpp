@@ -24,6 +24,8 @@ LightSwitch::LightSwitch() {
     if (!shader) shader = std::make_unique<ppgso::Shader>(myshader_vert_glsl, myshader_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("lightswitch.bmp"));
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("lightswitch.obj");
+
+    cooldown = glfwGetTime();
 }
 
 bool LightSwitch::update(Scene &scene, float dt) {
@@ -32,10 +34,13 @@ bool LightSwitch::update(Scene &scene, float dt) {
     if (distance(player->position,position) < 3.5)
     {
         if(scene.keyboard[GLFW_KEY_F] && abs(player->front.x) < 0.75){
-            auto lightSource1 = dynamic_cast<PointLight*>(scene.pointLights.front().get());
-            lightSource1->changeColor();
-            auto lightSource2 = dynamic_cast<PointLight*>(scene.pointLights.back().get());
-            lightSource2->changeColor();
+            if (glfwGetTime() - cooldown > 0.5) {
+                auto lightSource1 = dynamic_cast<PointLight *>(scene.pointLights.front().get());
+                lightSource1->changeColor();
+                auto lightSource2 = dynamic_cast<PointLight *>(scene.pointLights.back().get());
+                lightSource2->changeColor();
+                cooldown = glfwGetTime();
+            }
         }
     }
 

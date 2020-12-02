@@ -16,6 +16,7 @@ private:
     bool airborne = false;
     bool goingUp = false;
     bool falling = false;
+    double cooldown;
 public:
     Player();
     bool update(Scene &scene, float dt) override;

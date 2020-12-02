@@ -17,5 +17,7 @@ public:
     glm::vec3 playerPosition;
 
     void update(glm::vec3 position);
+
+    double cooldown;
 };
 

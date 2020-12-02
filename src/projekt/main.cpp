@@ -44,7 +44,7 @@ private:
         auto camera = std::make_unique<ThirdPersonCamera>(60.0f, 1.0f, 0.1f, 100.0f);
         scene2.camera = move(camera);
 
-        scene2.objects.push_back(std::make_unique<Sky>());
+       // scene2.objects.push_back(std::make_unique<Sky>());
 
         scene2.objects.push_back(std::make_unique<Road>());
 
@@ -178,8 +178,8 @@ public:
 
         // Disable cursor
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        current_scene = 2;
-        initScene2();
+        current_scene = 1;
+        initScene1();
     }
     void onKey(int key, int scanCode, int action, int mods) override {
         scene1.keyboard[key] = action;

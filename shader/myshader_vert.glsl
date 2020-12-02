@@ -12,8 +12,6 @@ uniform mat4 ModelMatrix;
 // This will be passed to the fragment shader
 out vec2 texCoord;
 out vec3 FragPos;
-
-// Normal to pass to the fragment shader
 out vec4 normal;
 
 void main() {
@@ -23,7 +21,6 @@ void main() {
 
     // Normal in world coordinates
     normal = normalize(ModelMatrix * vec4(Normal,0.0));
-    // normal = mat3(transpose(inverse(model))) * Normal;
 
     // Calculate the final position on screen
     gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * vec4(Position, 1.0);

@@ -1,4 +1,7 @@
-#include <glm/gtc/random.hpp>
+
+//this object is no longer used
+
+/*#include <glm/gtc/random.hpp>
 #include "Sky.h"
 
 #include <shaders/texture_vert_glsl.h>
@@ -34,3 +37,4 @@ void Sky::render(Scene &scene) {
 
     glDepthMask(GL_TRUE);
 }
+*/
