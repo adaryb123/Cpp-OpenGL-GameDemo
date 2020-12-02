@@ -12,6 +12,7 @@ private:
     static std::unique_ptr<ppgso::Shader> shader;
     static std::unique_ptr<ppgso::Texture> texture;
 
+    //illusion of movement
     glm::vec2 textureOffset;
 public:
     Road();

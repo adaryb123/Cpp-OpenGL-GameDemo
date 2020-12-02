@@ -12,36 +12,30 @@ std::unique_ptr<ppgso::Texture> Tire::texture;
 std::unique_ptr<ppgso::Shader> Tire::shader;
 
 Tire::Tire() {
-    // Set random scale speed and rotation
     rotation = {0.0f,3.12,0.0f};
     rotMomentum = { 0,0,-6};
     speed = {8.0f,-10.0f,0};
     scale *= 0.10f;
 
-    // Initialize static resources if needed
+    ySizeConst = 0.2f;
+    xSizeConst = 0.7f;
+
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Tire7.bmp"));
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("Tire.obj");
-
-    ySizeConst = 0.2f;
-    xSizeConst = 0.7f;
 }
 
 bool Tire::update(Scene &scene, float dt) {
-    // Count time alive
     age += dt;
-    // Rotate the object
-    rotation += rotMomentum * dt;
-
     // Delete when alive longer than 10s or out of visibility
     if (age > 10.0f || position.y < -10) return false;
 
-    // Collide with scene
-    for (auto &obj : scene.objects) {
-        // Ignore self in scene
-        if (obj.get() == this) continue;
+    // Rotate the object
+    rotation += rotMomentum * dt;
 
-        //tires will bounce off mantinels
+    // Bounce off a mantinel
+    for (auto &obj : scene.objects) {
+
         auto mantinel = dynamic_cast<Mantinel *>(obj.get());
         if (mantinel) {
             if (abs(position.x) >= (abs(mantinel->position.x) - 1)) {
@@ -58,7 +52,6 @@ bool Tire::update(Scene &scene, float dt) {
     }
     position += speed * dt;
 
-    // Generate modelMatrix from position, rotation and scale
     generateModelMatrix();
     updateBoundingBox();
     return true;
@@ -80,29 +73,24 @@ void Tire::render(Scene &scene) {
     mesh->render();
 }
 
-void Tire::collide(std::string collisionType) {
+//If this objects collides with player, it will animate in specific way
+void Tire::collide(const std::string& collisionType) {
     collided = true;
-    if (collisionType.compare("FRONT") == 0){
+    if (collisionType == "FRONT"){
         speed.x = 0;
         rotMomentum = {0,0,0};
         position.z -= 0.75f;
-        speed.z -= 3.0f;
+        speed.z -= 1.0f;
         rotMomentum.y = -5.0f;
     }
-    else if (collisionType.compare("LEFT") == 0){
+    else if (collisionType == "LEFT"){
         speed.x = -speed.x;
         rotMomentum.z = -rotMomentum.z;
         position.x -= 0.3f;
-      /*  position.x -= 0.5f;
-        speed.x -= 2.0f;
-        rotMomentum.z = 3.0f;*/
     }
-    else if (collisionType.compare("RIGHT") == 0){
+    else if (collisionType == "RIGHT"){
         speed.x = -speed.x;
         rotMomentum.z = -rotMomentum.z;
         position.x += 0.3f;
-       /* position.x += 0.5f;
-        speed.x += 2.0f;
-        rotMomentum.z = -3.0f;*/
     }
 }

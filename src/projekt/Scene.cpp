@@ -3,25 +3,25 @@
 
 void Scene::update(float dt) {
     //update wind
-   // srand (static_cast <unsigned> (10*time(0)));
-   // wind.x =  -3.0f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(3.0f-(-3.0f))));
    wind.x = glm::linearRand(0.0f,4.5f);
    int swapWindChance = glm::linearRand(0,100);
    if (swapWindChance > 99)
       windDirection *= -1;
    wind *= windDirection;
 
+   //update camera
     camera->keyboard = keyboard;
     camera->mouseX = mouseX;
     camera->mouseY = mouseY;
     camera->update(dt);
 
+    //update lights
     for ( auto& obj : pointLights )
         obj->update(*this,dt);
-  //  lightSource->update(*this,time);
+
+    //update objects
     // Use iterator to update all objects so we can remove while iterating
     auto i = std::begin(objects);
-
     while (i != std::end(objects)) {
         // Update and remove from list if needed
         auto obj = i->get();
@@ -33,11 +33,11 @@ void Scene::update(float dt) {
 }
 
 void Scene::render() {
-    // Simply render all objects
+    //render lights
     for ( auto& obj : pointLights )
         obj->render(*this);
 
-    //lightSource->render(*this);
+    //render objects
     for ( auto& obj : objects )
         obj->render(*this);
 }

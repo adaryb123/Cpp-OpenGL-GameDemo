@@ -14,12 +14,6 @@ std::unique_ptr<ppgso::Texture> LightSwitch::texture;
 std::unique_ptr<ppgso::Shader> LightSwitch::shader;
 
 LightSwitch::LightSwitch() {
-    // Initialize static resources if needed
-    //scale = {0.005,0.005,0.005};
-    material.ambient = {0.0969755f,0.093313708f,0.059977125f};                  //stale to je velmi svetle
-    material.diffuse = {0.443168417f,0.433226705f,0.307670788f};
-    material.specular = {0.507886491f,0.520246116f,0.433642574f};
-    material.shininess = 0.23644578f;
 
     if (!shader) shader = std::make_unique<ppgso::Shader>(myshader_vert_glsl, myshader_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("lightswitch.bmp"));
@@ -30,6 +24,7 @@ LightSwitch::LightSwitch() {
 
 bool LightSwitch::update(Scene &scene, float dt) {
 
+    //if player is facing lightswitch and presses F, lights will change color
     auto player = dynamic_cast<FirstPersonCamera*>(scene.camera.get());
     if (distance(player->position,position) < 3.5)
     {
@@ -49,10 +44,10 @@ bool LightSwitch::update(Scene &scene, float dt) {
 }
 
 void LightSwitch::render(Scene &scene) {
-
     shader->use();
-    auto lightSource1 = dynamic_cast<PointLight*>(scene.pointLights.front().get());
 
+    //Light1
+    auto lightSource1 = dynamic_cast<PointLight*>(scene.pointLights.front().get());
     shader->setUniform("light.position",lightSource1->position);
     shader->setUniform("light.color",lightSource1->color);
     shader->setUniform("light.ambient",  lightSource1->ambient);
@@ -62,8 +57,8 @@ void LightSwitch::render(Scene &scene) {
     shader->setUniform("light.linear", lightSource1->linear);
     shader->setUniform("light.quadratic", lightSource1->quadratic);
 
+    //Light2
     auto lightSource2 = dynamic_cast<PointLight*>(scene.pointLights.back().get());
-
     shader->setUniform("light2.position",lightSource2->position);
     shader->setUniform("light2.color",lightSource2->color);
     shader->setUniform("light2.ambient",  lightSource2->ambient);
@@ -88,5 +83,4 @@ void LightSwitch::render(Scene &scene) {
     shader->setUniform("ModelMatrix", modelMatrix);
     shader->setUniform("Texture", *texture);
     mesh->render();
-
 }

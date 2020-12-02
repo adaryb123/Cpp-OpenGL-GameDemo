@@ -8,6 +8,7 @@
 
 class FirstPersonCamera final : public Camera {
 public:
+    //variables needed for FPS camera
     GLfloat movementSpeed= 6.0f;
     GLfloat sensitivity = 0.06f;
 

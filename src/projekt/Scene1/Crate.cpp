@@ -10,7 +10,7 @@ std::unique_ptr<ppgso::Texture> Crate::texture;
 std::unique_ptr<ppgso::Shader> Crate::shader;
 
 Crate::Crate() {
-    // Initialize static resources if needed
+
     scale= {2,2,2};
     //Brass
     material.ambient = {0.329412f, 0.223529f, 0.027451f};
@@ -29,10 +29,10 @@ bool Crate::update(Scene &scene, float dt) {
 }
 
 void Crate::render(Scene &scene) {
-
     shader->use();
-    auto lightSource1 = dynamic_cast<PointLight*>(scene.pointLights.front().get());
 
+    //Light1
+    auto lightSource1 = dynamic_cast<PointLight*>(scene.pointLights.front().get());
     shader->setUniform("light.position",lightSource1->position);
     shader->setUniform("light.color",lightSource1->color);
     shader->setUniform("light.ambient",  lightSource1->ambient);
@@ -42,8 +42,8 @@ void Crate::render(Scene &scene) {
     shader->setUniform("light.linear", lightSource1->linear);
     shader->setUniform("light.quadratic", lightSource1->quadratic);
 
+    //Light2
     auto lightSource2 = dynamic_cast<PointLight*>(scene.pointLights.back().get());
-
     shader->setUniform("light2.position",lightSource2->position);
     shader->setUniform("light2.color",lightSource2->color);
     shader->setUniform("light2.ambient",  lightSource2->ambient);

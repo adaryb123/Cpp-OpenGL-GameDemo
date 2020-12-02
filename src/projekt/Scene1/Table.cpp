@@ -19,7 +19,6 @@ Table::Table() {
     material.specular = {0.727811f,0.626959f,0.626959f};
     material.shininess = {0.6f};
 
-    // Initialize static resources if needed
     if (!shader) shader = std::make_unique<ppgso::Shader>(myshader_vert_glsl, myshader_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Table.bmp"));
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("Table.obj");
@@ -31,10 +30,10 @@ bool Table::update(Scene &scene, float dt) {
 }
 
 void Table::render(Scene &scene) {
-
     shader->use();
-    auto lightSource1 = dynamic_cast<PointLight*>(scene.pointLights.front().get());
 
+    //Light1
+    auto lightSource1 = dynamic_cast<PointLight*>(scene.pointLights.front().get());
     shader->setUniform("light.position",lightSource1->position);
     shader->setUniform("light.color",lightSource1->color);
     shader->setUniform("light.ambient",  lightSource1->ambient);
@@ -44,8 +43,8 @@ void Table::render(Scene &scene) {
     shader->setUniform("light.linear", lightSource1->linear);
     shader->setUniform("light.quadratic", lightSource1->quadratic);
 
+    //Light2
     auto lightSource2 = dynamic_cast<PointLight*>(scene.pointLights.back().get());
-
     shader->setUniform("light2.position",lightSource2->position);
     shader->setUniform("light2.color",lightSource2->color);
     shader->setUniform("light2.ambient",  lightSource2->ambient);

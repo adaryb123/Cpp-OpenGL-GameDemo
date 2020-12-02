@@ -11,26 +11,23 @@
 #include <shaders/diffuse_vert_glsl.h>
 #include <shaders/diffuse_frag_glsl.h>
 
-// shared resources
+// Static resources
 std::unique_ptr<ppgso::Mesh> Player::mesh;
 std::unique_ptr<ppgso::Texture> Player::texture;
 std::unique_ptr<ppgso::Shader> Player::shader;
 
 Player::Player() {
-    // Scale the default model
     scale = {0.5f,0.5f,1.0f};
     rotation.z += 3.2f;
-    under_force = false;
-
-    // Initialize static resources if need3ed
-    if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
-    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("RacingCar.bmp"));
-    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("RacingCar.obj");
 
     ySizeConst = 2.5f;
     xSizeConst = 0.6f;
 
     cooldown = glfwGetTime();
+
+    if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
+    if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("RacingCar.bmp"));
+    if (!mesh) mesh = std::make_unique<ppgso::Mesh>("RacingCar.obj");
 }
 
 bool Player::update(Scene &scene, float dt) {
@@ -40,17 +37,17 @@ bool Player::update(Scene &scene, float dt) {
         if (obj.get() == this)
             continue;
 
+        //if player hits finnish, game ends
         auto finish = dynamic_cast<Finish*>(obj.get());
         if (finish)
         {
             if (position.y > finish->position.y) {
-                scene.stopAnimation = true;
-               // scene.endScene = true;
+                scene.endScene = true;
                 return true;
             }
         }
 
-        // If player hits mantinel, he can move no further
+        // If player hits mantinel, he can move no further in that direction
         auto mantinel = dynamic_cast<Mantinel*>(obj.get());
         if (mantinel)
         {
@@ -62,24 +59,25 @@ bool Player::update(Scene &scene, float dt) {
                 return true;
             }
         }
-        // If player hits an obstacle, game stops for a moment
+
+        // If player hits an obstacle, call the collide metod of the obstacle
         auto tire = dynamic_cast<Tire*>(obj.get());
         if(tire && airborne == false) {
             if (tire->boundingBox.max_y <= boundingBox.min_y && tire->boundingBox.max_y >= boundingBox.max_y)
                 if ((tire->boundingBox.min_x >= boundingBox.max_x && tire->boundingBox.min_x <= boundingBox.min_x ) || (tire->boundingBox.max_x >= boundingBox.max_x && tire->boundingBox.max_x <= boundingBox.min_x))
                 {
                     if (tire->boundingBox.max_y >=  boundingBox.min_y -0.5)
-                        tire->collide("FRONT");
+                        tire->collide("FRONT");         //collision from front
                     else {
                         if (tire->position.x < position.x)
-                            tire->collide("LEFT");
+                            tire->collide("LEFT");      //collision from left
                         else
-                            tire->collide("RIGHT");
+                            tire->collide("RIGHT");     //collision from right
                     }
                 }
             }
 
-        // If player hits an obstacle, game stops for a moment
+        // If player hits an obstacle, call the collide metod of the obstacle
         auto trafficCone = dynamic_cast<TrafficCone*>(obj.get());
         if(trafficCone && airborne == false && trafficCone->collided == false) {
 
@@ -87,28 +85,15 @@ bool Player::update(Scene &scene, float dt) {
                 if ((trafficCone->boundingBox.min_x >= boundingBox.max_x && trafficCone->boundingBox.min_x <= boundingBox.min_x ) || (trafficCone->boundingBox.max_x >= boundingBox.max_x && trafficCone->boundingBox.max_x <= boundingBox.min_x))
                     {
                         if (trafficCone->boundingBox.max_y >=  boundingBox.min_y -1.0)
-                            trafficCone->collide("FRONT");
+                            trafficCone->collide("FRONT");          //collision from front
                         else {
                             if (trafficCone->position.x < position.x)
-                                trafficCone->collide("LEFT");
+                                trafficCone->collide("LEFT");      //collision from left
                             else
-                                trafficCone->collide("RIGHT");
+                                trafficCone->collide("RIGHT");     //collision from right
                         }
                     }
         }
-        // Magnet will push the player a bit
-        /*auto magnet = dynamic_cast<Magnet*>(obj.get());
-        if(magnet) {
-            if (magnet->position.y - position.y < 2 && magnet->position.y - position.y > -2) {
-                auto magnet_distance = distance(position, magnet->position);
-                if (magnet_distance < 8) {
-                    under_force = true;
-                    external_force.x = 12 - magnet_distance;
-                    if (magnet->position.x < 0)
-                        external_force = - external_force;
-                }
-            }
-        }*/
     }
     // Move left and right
     if(scene.keyboard[GLFW_KEY_LEFT])
@@ -117,13 +102,13 @@ bool Player::update(Scene &scene, float dt) {
         position.x -= 10 * dt;
 
     //Toggle wind
-    if(scene.keyboard[GLFW_KEY_W])
-    {
+    if(scene.keyboard[GLFW_KEY_W]) {
         if (glfwGetTime() - cooldown > 0.5) {
             countWithWind = !countWithWind;
             cooldown = glfwGetTime();
         }
     }
+    // If wind is toggled, adjust position
     if (countWithWind == true)
         position += scene.wind * dt;
 
@@ -135,25 +120,20 @@ bool Player::update(Scene &scene, float dt) {
             goingUp = true;
         airborne = true;
     }
-    if (position.z < -3) {
+    if (position.z < -3) {      //this is the "peak" of the jump
         position.z = -3;
         goingUp = false;
         falling = true;
     }
 
-    if (airborne == true && goingUp == false)
+    if (airborne == true && goingUp == false)       //when player reaches the "peak of the jump", gravity will start working on him
         position += scene.gravity * dt;
 
-    if (position.z > 0) {
+    if (position.z > 0) {       //when player reaches the ground, gravity will stop working again
         position.z = 0;
         airborne = false;
         falling = false;
     }
-    /*if (under_force == true)
-    {
-        position -= external_force *dt;
-        under_force = false;
-    }*/
 
     auto camera = dynamic_cast<ThirdPersonCamera*>(scene.camera.get());
     camera->playerPosition = position;

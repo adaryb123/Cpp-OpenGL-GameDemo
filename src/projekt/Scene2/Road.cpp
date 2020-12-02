@@ -10,22 +10,20 @@ std::unique_ptr<ppgso::Texture> Road::texture;
 std::unique_ptr<ppgso::Shader> Road::shader;
 
 Road::Road() {
-    // Set random scale speed and rotation
     position.y += 18.0f;
     rotation = {3.15f,-3.15f,0.0f};
     scale *= 6.1f;
     scale.y *= 5.0f;
 
-    // Initialize static resources if needed
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Road.bmp"));
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("quad.obj");
 }
 
 bool Road::update(Scene &scene, float dt) {
+    //create illusion of movement
     textureOffset.y -= dt/3;
     generateModelMatrix();
-
     return true;
 }
 

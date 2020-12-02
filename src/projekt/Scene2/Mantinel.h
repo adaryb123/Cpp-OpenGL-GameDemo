@@ -13,16 +13,13 @@ private:
     static std::unique_ptr<ppgso::Shader> shader;
     static std::unique_ptr<ppgso::Texture> texture;
 
-    // Age of the object in seconds
-    float age{0.0f};
-
-    // Speed and rotational momentum
-    glm::vec2 textureOffset {0.1,0};
 public:
+    //illusion of movement
+    glm::vec2 textureOffset {0.1,0};
     bool addingOffset = false;
+
     Mantinel();
     bool update(Scene &scene, float dt) override;
     void render(Scene &scene) override;
 
-private:
 };

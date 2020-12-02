@@ -13,19 +13,21 @@ private:
     static std::unique_ptr<ppgso::Shader> shader;
     static std::unique_ptr<ppgso::Texture> texture;
 
-    // Age of the object in seconds
+    // How long is this object on scene
     float age{0.0f};
 
-    // Speed and rotational momentum
+    // This object is moving
     glm::vec3 speed;
     glm::vec3 rotMomentum;
 
 public:
+    // This object can only collide with player once
     bool collided = false;
+
     Tire();
     bool update(Scene &scene, float dt) override;
     void render(Scene &scene) override;
-    void collide(std::string collisionType);
+    void collide(const std::string& collisionType);
 private:
 };
 

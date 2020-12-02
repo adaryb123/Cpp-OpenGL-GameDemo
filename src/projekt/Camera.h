@@ -5,19 +5,21 @@
 
 #include <glm/glm.hpp>
 
+/* Abstract camera class */
 class Camera {
 public:
-    // Define default constructors as this is an abstract class
     Camera() = default;
     Camera(const Camera&) = default;
     Camera(Camera&&) = default;
     virtual ~Camera() {};
     virtual void update(float dt) = 0;
 
-    // Camera properties
+    //store keyboard and mouse input from screen
     std::map< int, int > keyboard;
     float mouseX;
     float mouseY;
+
+    //properties
     glm::vec3 position = {0,0,0};
     glm::vec3 front = {0,0,1};
     glm::vec3 up = {0,1,0};

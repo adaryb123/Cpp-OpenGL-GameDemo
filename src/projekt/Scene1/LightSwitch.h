@@ -10,6 +10,8 @@ private:
     static std::unique_ptr<ppgso::Mesh> mesh;
     static std::unique_ptr<ppgso::Shader> shader;
     static std::unique_ptr<ppgso::Texture> texture;
+
+    //can be used every 0.5 second
     double cooldown;
 public:
     LightSwitch();

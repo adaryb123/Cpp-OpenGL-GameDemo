@@ -14,7 +14,10 @@ void FirstPersonCamera::update(float dt) {
     processMouseMovement(dt);
     updateCameraVectors();
 
+    //cant move up and down
     position.y = 1;
+
+    //cant move through walls
     if (position.x > 9)
         position.x = 9;
     else if (position.x < -9)

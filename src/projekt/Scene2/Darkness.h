@@ -6,6 +6,7 @@
 #include "src/projekt/Scene.h"
 #include "src/projekt/Object.h"
 
+
 class Darkness final : public Object {
 private:
     // Static resources (Shared between instances)

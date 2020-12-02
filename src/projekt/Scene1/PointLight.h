@@ -9,6 +9,7 @@ class PointLight : public Object{
     static std::unique_ptr<ppgso::Mesh> mesh;
     static std::unique_ptr<ppgso::Shader> shader;
 public:
+    //Light parameters
     glm::vec3 color;
     glm::vec3 ambient;
     glm::vec3 diffuse;
@@ -17,6 +18,7 @@ public:
     float linear;
     float quadratic;
 
+    //light can change color
     int colorMode = 0;
     void changeColor();
 

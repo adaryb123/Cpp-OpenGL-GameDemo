@@ -16,6 +16,7 @@ Sphere::Sphere() {
 }
 
 bool Sphere::update(Scene &scene, float dt) {
+    //the first object updates all 3
     myUpdate1(dt);
     child->myUpdate2(dt,modelMatrix);
     child->child->myUpdate3(dt,child->modelMatrix);
@@ -25,8 +26,9 @@ bool Sphere::update(Scene &scene, float dt) {
 void Sphere::render(Scene &scene) {
 
     shader->use();
-    auto lightSource1 = dynamic_cast<PointLight*>(scene.pointLights.front().get());
 
+    //Light1
+    auto lightSource1 = dynamic_cast<PointLight*>(scene.pointLights.front().get());
     shader->setUniform("light.position",lightSource1->position);
     shader->setUniform("light.color",lightSource1->color);
     shader->setUniform("light.ambient",  lightSource1->ambient);
@@ -36,8 +38,8 @@ void Sphere::render(Scene &scene) {
     shader->setUniform("light.linear", lightSource1->linear);
     shader->setUniform("light.quadratic", lightSource1->quadratic);
 
+    //Light2
     auto lightSource2 = dynamic_cast<PointLight*>(scene.pointLights.back().get());
-
     shader->setUniform("light2.position",lightSource2->position);
     shader->setUniform("light2.color",lightSource2->color);
     shader->setUniform("light2.ambient",  lightSource2->ambient);
@@ -63,12 +65,14 @@ void Sphere::render(Scene &scene) {
     shader->setUniform("Texture", *texture);
     mesh->render();
 
+    //the first object also renders all 3
     if (sphereNum == 1) {
         child->render(scene);
         child->child->render(scene);
     }
 }
 
+//update for the first object
 void Sphere::myUpdate1(float dt) {
     auto t = (float) glfwGetTime();
     position = {6*sin(t),4,8};
@@ -85,6 +89,7 @@ void Sphere::myUpdate1(float dt) {
 
 }
 
+//update for the second object
 void Sphere::myUpdate2(float dt,glm::mat4 modelMatrixParent) {
     auto t = (float) glfwGetTime();
     position = {0,4,0};
@@ -100,6 +105,7 @@ void Sphere::myUpdate2(float dt,glm::mat4 modelMatrixParent) {
                   * glm::scale(glm::mat4{1.0}, this->scale);
 }
 
+//update for the third object
 void Sphere::myUpdate3(float dt, glm::mat4 modelMatrixParent) {
     auto t = (float) glfwGetTime();
     position = {0,2,0};

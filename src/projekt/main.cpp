@@ -1,6 +1,4 @@
-#include <iostream>
 #include <map>
-#include <list>
 
 #include <ppgso/ppgso.h>
 #include <src/projekt/Scene2/Tire.h>
@@ -10,7 +8,6 @@
 #include <src/projekt/Scene2/Darkness.h>
 
 #include "src/projekt/Scene2/ThirdPersonCamera.h"
-#include "scene.h"
 #include "src/projekt/Scene2/Player.h"
 #include "src/projekt/Scene2/Road.h"
 #include "src/projekt/Scene2/Generator.h"
@@ -20,72 +17,32 @@
 #include "src/projekt/Scene1/Door.h"
 #include "src/projekt/Scene1/FirstPersonCamera.h"
 #include "src/projekt/Scene1/Table.h"
-#include "src/projekt/Scene1/PointLight.h"
 #include "src/projekt/Scene1/Crate.h"
 #include "src/projekt/Scene1/LightSwitch.h"
-#include "src/projekt/Scene2/Finish.h"
 
 const unsigned int HEIGHT = 1200;
 const unsigned int WIDTH = 1800;
 
 class SceneWindow : public ppgso::Window {
 private:
-    Scene scene2;
-    Scene scene1;
+    Scene scene1;       //the entry room
+    Scene scene2;       //the game itself
+
     // 1 for the first scene and 2 for the second scene
     int current_scene = 1;
-    bool animate = true;
-    void initScene2() {
-        current_scene = 2;
-        scene2.objects.clear();
-        scene2.stopAnimation = false;
-        animate = true;
 
-        auto camera = std::make_unique<ThirdPersonCamera>(60.0f, 1.0f, 0.1f, 100.0f);
-        scene2.camera = move(camera);
-
-       // scene2.objects.push_back(std::make_unique<Sky>());
-
-        scene2.objects.push_back(std::make_unique<Road>());
-
-        scene2.objects.push_back(std::make_unique<Darkness>());
-
-       // scene2.objects.push_back(std::make_unique<Finish>());
-
-        auto generator = std::make_unique<Generator>();
-        generator->position.y = 25.0f;
-        scene2.objects.push_back(move(generator));
-
-        auto right_mantinel = std::make_unique<Mantinel>();
-        right_mantinel->position.x = 6.5;
-        right_mantinel->position.y = 17.0;
-        right_mantinel->rotation =  {3.15,-1.56,1.60};
-        right_mantinel->addingOffset = true;
-        scene2.objects.push_back(move(right_mantinel));
-
-        auto left_mantinel = std::make_unique<Mantinel>();
-        left_mantinel->position.x = -6.0f;
-        left_mantinel->position.y = 17.0;
-        left_mantinel->rotation = {0,-1.56,1.55};
-        scene2.objects.push_back(move(left_mantinel));
-
-        auto player = std::make_unique<Player>();
-        player->position.y = -6;
-        scene2.objects.push_back(move(player));
-
-        scene2.lightDirection = {3.0, -2.0f, -2.0f};
-
-    }
     void initScene1() {
         current_scene = 1;
         scene1.objects.clear();
         scene1.endScene = false;
 
+        //camera
         auto camera = std::make_unique<FirstPersonCamera>(60.0f, 1.0f, 0.1f, 100.0f);
         camera->position = {0.0,0.0,-1.0};
         camera->front = {0.0,0.0,1.0};
         scene1.camera = move(camera);
 
+        //6 walls to make a room
         auto wall1 = std::make_unique<Wall>();      //front
         wall1->position = {0,1,-10};
         wall1->rotation = {0.0,0,0};
@@ -116,23 +73,28 @@ private:
         wall6->rotation = {0,0,1.5};
         scene1.objects.push_back(move(wall6));
 
+        //Door to the next scene
         auto door = std::make_unique<Door>();
-        door->position = {-3,3,-9};
-        door->rotation = {1.5,0,3};
+        door->position = {-3,3,-9.8};
+        door->rotation = {1.55,0,3};
         scene1.objects.push_back(move(door));
 
+        //2 lamps
         auto light_source1 = std::make_unique<PointLight>();
         light_source1->position = {9.7,8,0};
         scene1.pointLights.push_back(move(light_source1));
+
         auto light_source2 = std::make_unique<PointLight>();
         light_source2->position = {-9.7,8,0};
         scene1.pointLights.push_back(move(light_source2));
 
+        //Lightswitch
         auto lightswitch= std::make_unique<LightSwitch>();
-        lightswitch->position = {3,1.0,-9};
-        lightswitch->rotation = {-1.5,3,0};
+        lightswitch->position = {3,1.0,-9.8};
+        lightswitch->rotation = {-1.55,3,0};
         scene1.objects.push_back(move(lightswitch));
 
+        //3 moving spheres
         auto sphere1 = std::make_unique<Sphere>();
         sphere1->sphereNum = 1;
         auto sphere2 = std::make_unique<Sphere>();
@@ -143,8 +105,10 @@ private:
         sphere1->child = move(sphere2);
         scene1.objects.push_back(move(sphere1));
 
+        //This object will randomize the spawn positions of the furniture
         auto shuffler = new ObjectSpawnShuffler();
 
+        //The furniture
         auto table = std::make_unique<Table>();
         table->position = {5,-2,0};
 
@@ -159,6 +123,48 @@ private:
         shuffler->objects.push_back(move(barrel));
         shuffler->shuffle(scene1);
         delete(shuffler);
+    }
+
+    void initScene2() {
+        current_scene = 2;
+        scene2.objects.clear();
+        scene2.endScene = false;
+
+        //Camera
+        auto camera = std::make_unique<ThirdPersonCamera>(60.0f, 1.0f, 0.1f, 100.0f);
+        scene2.camera = move(camera);
+
+        //Road
+        scene2.objects.push_back(std::make_unique<Road>());
+
+        //Darkness object at the end of the tunnel
+        scene2.objects.push_back(std::make_unique<Darkness>());
+
+        //Object that spawns obstacles
+        auto generator = std::make_unique<Generator>();
+        generator->position.y = 25.0f;
+        scene2.objects.push_back(move(generator));
+
+        //right wall
+        auto right_mantinel = std::make_unique<Mantinel>();
+        right_mantinel->position.x = 6.5;
+        right_mantinel->position.y = 17.0;
+        right_mantinel->rotation =  {3.15,-1.56,1.60};
+        right_mantinel->addingOffset = true;
+        scene2.objects.push_back(move(right_mantinel));
+
+        //left wall
+        auto left_mantinel = std::make_unique<Mantinel>();
+        left_mantinel->position.x = -6.0f;
+        left_mantinel->position.y = 17.0;
+        left_mantinel->rotation = {0,-1.56,1.55};
+        scene2.objects.push_back(move(left_mantinel));
+
+        //the player == red car
+        auto player = std::make_unique<Player>();
+        player->position.y = -6;
+        scene2.objects.push_back(move(player));
+
     }
 
 public:
@@ -185,21 +191,16 @@ public:
         scene1.keyboard[key] = action;
         scene2.keyboard[key] = action;
 
-        // Reset
+        // Reset scene 2
         if (key == GLFW_KEY_R && action == GLFW_PRESS) {
             if (current_scene == 2)
                 initScene2();
         }
 
+        // Return to scene 1
         if (key == GLFW_KEY_B && action == GLFW_PRESS) {
             if (current_scene == 2)
                 initScene1();
-        }
-
-        // Pause
-        if (key == GLFW_KEY_P && action == GLFW_PRESS) {
-            if (current_scene == 2)
-                animate = !animate;
         }
     }
 
@@ -207,15 +208,12 @@ public:
         scene1.mouseX = static_cast<float>(cursorX);
         scene1.mouseY = static_cast<float>(cursorY);
     }
-
-
+    /* We render scene 1 until the door is used , then we render scene2 */
     void onIdle() override {
         if (current_scene == 1) {
             // Track time
             static auto time = (float) glfwGetTime();
-
-            float dt = animate ? (float) glfwGetTime() - time : 0;
-
+            float dt =  (float) glfwGetTime() - time;
             time = (float) glfwGetTime();
 
             // Set gray background
@@ -233,18 +231,13 @@ public:
                 initScene2();
             }
         } else if (current_scene == 2) {
+            if (scene2.endScene == true) {
+                scene2.objects.clear();
+                return;
+            }
             // Track time
             static auto time = (float) glfwGetTime();
-
-            // Compute time delta
-            if (scene2.stopAnimation == true)
-                animate = false;
-
-            if (scene2.stopAnimation == false && animate == false)
-                animate = true;
-
-            float dt = animate ? (float) glfwGetTime() - time : 0;
-
+            float dt = !scene2.endScene ? (float) glfwGetTime() - time : 0;
             time = (float) glfwGetTime();
 
             // Set gray background

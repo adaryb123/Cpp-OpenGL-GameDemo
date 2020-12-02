@@ -3,7 +3,7 @@
 
 void ObjectSpawnShuffler::shuffle(Scene& scene){
     srand (static_cast <unsigned> (time(0)));
-
+    //choose random spawn positions for every object, if they collide, try again
     while (true) {
         for (auto &obj : objects) {
             obj->position.x =  -7.0f + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(7.0f-(-7.0f))));
@@ -24,7 +24,7 @@ void ObjectSpawnShuffler::shuffle(Scene& scene){
         if (good == true)
             break;
     }
-
+    //add objects to the scene
     for (auto &obj : objects) {
         scene.objects.push_back(move(obj));
     }

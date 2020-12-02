@@ -12,7 +12,7 @@ std::unique_ptr<ppgso::Shader> Door::shader;
 
 Door::Door() {
     scale *= 0.02f;
-    // Initialize static resources if needed
+
     if (!shader) shader = std::make_unique<ppgso::Shader>(myshader_vert_glsl, myshader_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Door.bmp"));
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("Door.obj");
@@ -20,6 +20,7 @@ Door::Door() {
 
 bool Door::update(Scene &scene, float dt) {
 
+    //If player is facing door and presses F, switch scenes
     auto player = dynamic_cast<FirstPersonCamera*>(scene.camera.get());
     if (distance(player->position,position) < 3.5)
     {
@@ -33,10 +34,10 @@ bool Door::update(Scene &scene, float dt) {
 }
 
 void Door::render(Scene &scene) {
-
     shader->use();
-    auto lightSource1 = dynamic_cast<PointLight*>(scene.pointLights.front().get());
 
+    //Light1
+    auto lightSource1 = dynamic_cast<PointLight*>(scene.pointLights.front().get());
     shader->setUniform("light.position",lightSource1->position);
     shader->setUniform("light.color",lightSource1->color);
     shader->setUniform("light.ambient",  lightSource1->ambient);
@@ -46,8 +47,8 @@ void Door::render(Scene &scene) {
     shader->setUniform("light.linear", lightSource1->linear);
     shader->setUniform("light.quadratic", lightSource1->quadratic);
 
+    //Light2
     auto lightSource2 = dynamic_cast<PointLight*>(scene.pointLights.back().get());
-
     shader->setUniform("light2.position",lightSource2->position);
     shader->setUniform("light2.color",lightSource2->color);
     shader->setUniform("light2.ambient",  lightSource2->ambient);

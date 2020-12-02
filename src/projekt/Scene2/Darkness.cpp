@@ -11,11 +11,9 @@ std::unique_ptr<ppgso::Texture> Darkness::texture;
 std::unique_ptr<ppgso::Shader> Darkness::shader;
 
 Darkness::Darkness() {
-    // Set random scale speed and rotation
     position = {-0.5,35,-1};
     scale = {15,15,30};
 
-    // Initialize static resources if needed
     if (!shader) shader = std::make_unique<ppgso::Shader>(diffuse_vert_glsl, diffuse_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("Darkness.bmp"));
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("sphere.obj");

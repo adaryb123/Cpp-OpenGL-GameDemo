@@ -1,9 +1,6 @@
 #include <glm/gtc/random.hpp>
 #include "Mantinel.h"
 
-#include <shaders/diffuse_vert_glsl.h>
-#include <shaders/diffuse_frag_glsl.h>
-
 #include <shaders/texture_vert_glsl.h>
 #include <shaders/texture_frag_glsl.h>
 
@@ -16,17 +13,17 @@ Mantinel::Mantinel() {
     scale = {30,10,1};
     position.y += 1.0f;
 
-    // Initialize static resources if needed
     if (!shader) shader = std::make_unique<ppgso::Shader>(texture_vert_glsl, texture_frag_glsl);
     if (!texture) texture = std::make_unique<ppgso::Texture>(ppgso::image::loadBMP("BrickWall.bmp"));
     if (!mesh) mesh = std::make_unique<ppgso::Mesh>("quad.obj");
 }
 
 bool Mantinel::update(Scene &scene, float dt) {
+    //adding the illusion of movement
     if (addingOffset)
-        textureOffset.x += dt/6;
+        textureOffset.x += dt/6;          //for the left mantinel
     else
-        textureOffset.x -= dt/6;
+        textureOffset.x -= dt/6;           //for the right mantinel
     generateModelMatrix();
     return true;
 }

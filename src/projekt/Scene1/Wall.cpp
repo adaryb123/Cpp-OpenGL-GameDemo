@@ -32,9 +32,8 @@ bool Wall::update(Scene &scene, float dt) {
 void Wall::render(Scene &scene) {
     shader->use();
 
-    //Light
+    //Light1
     auto lightSource1 = dynamic_cast<PointLight*>(scene.pointLights.front().get());
-
     shader->setUniform("light.position",lightSource1->position);
     shader->setUniform("light.color",lightSource1->color);
     shader->setUniform("light.ambient",  lightSource1->ambient);
@@ -44,8 +43,8 @@ void Wall::render(Scene &scene) {
     shader->setUniform("light.linear", lightSource1->linear);
     shader->setUniform("light.quadratic", lightSource1->quadratic);
 
+    //Light2
     auto lightSource2 = dynamic_cast<PointLight*>(scene.pointLights.back().get());
-
     shader->setUniform("light2.position",lightSource2->position);
     shader->setUniform("light2.color",lightSource2->color);
     shader->setUniform("light2.ambient",  lightSource2->ambient);

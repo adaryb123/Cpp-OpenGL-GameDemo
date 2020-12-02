@@ -8,30 +8,23 @@
 #include "Camera.h"
 #include "Scene1/PointLight.h"
 
-/*
- * Scene is an object that will aggregate all scene related data
- * Objects are stored in a list of objects
- * Keyboard and Mouse states are stored in a map and struct
- */
+/* Scene is a class that stores all necessary data for one of the game scenes */
 class Scene {
 public:
 
     void update(float time);
     void render();
 
-    // ThirdPersonCamera object
+    // Camera object
     std::unique_ptr<Camera> camera;
 
     // All objects to be rendered in scene
     std::list< std::unique_ptr<Object> > objects;
 
-    // Keyboard state
-    std::map< int, int > keyboard;
+    // Directional light
+    glm::vec3 lightDirection = {3.0, -2.0f, -2.0f};
 
-    // Lights, in this case using only simple directional diffuse lighting
-    glm::vec3 lightDirection;//{-1.0f, -1.0f, -1.0f};
-
-    //std::unique_ptr<Object> lightSource;
+    // List of point lights
     std::list< std::unique_ptr<Object> > pointLights;
 
     //Wind
@@ -41,11 +34,12 @@ public:
     //Gravity
     glm::vec3 gravity = {0,0,5};
 
-    // Store cursor state
+    // Keyboard and mouse states
+    std::map< int, int > keyboard;
     float mouseX;
     float mouseY;
 
-    bool stopAnimation = false;
+    //equals true if the scene should end
     bool endScene = false;
 };
 

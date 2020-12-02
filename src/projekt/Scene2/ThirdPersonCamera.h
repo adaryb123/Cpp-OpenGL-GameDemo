@@ -11,13 +11,12 @@ public:
     ThirdPersonCamera(float fow = 45.0f, float ratio = 1.0f, float near = 0.1f, float far = 10.0f);
     void update(float time);
 
-    //bool followPlayer = false;
-    int cameraMode = 0;
-
+    //camera is always focused on player
     glm::vec3 playerPosition;
 
-    void update(glm::vec3 position);
-
+    //camera has multiple predefined posiitons
+    int cameraMode = 0;
+    //camera view can be changed every 0.5 sec
     double cooldown;
 };
 

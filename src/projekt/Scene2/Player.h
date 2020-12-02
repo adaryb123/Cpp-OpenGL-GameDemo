@@ -10,13 +10,17 @@ private:
     static std::unique_ptr<ppgso::Shader> shader;
     static std::unique_ptr<ppgso::Texture> texture;
 
-    bool under_force = false;
-    glm::vec3 external_force = {0,0,0};
+    //if the wind is toggled or not
     bool countWithWind = false;
-    bool airborne = false;
-    bool goingUp = false;
-    bool falling = false;
+    // the wind can be toggled every 0.5 sec
     double cooldown;
+
+    //If player jumps, he cant collide with obstacles
+    bool airborne = false;
+    //if he is jumping up
+    bool goingUp = false;
+    //if he is falling down
+    bool falling = false;
 public:
     Player();
     bool update(Scene &scene, float dt) override;
