@@ -32,16 +32,16 @@ void FirstPersonCamera::update(float dt) {
 
 void FirstPersonCamera::processKeyboardMovement(float dt)
 {
-    if(keyboard[GLFW_KEY_LEFT]) {
+    if(keyboard[GLFW_KEY_LEFT] || keyboard[GLFW_KEY_A]) {
         this->position -= this->right * this->movementSpeed * dt;
     }
-    if(keyboard[GLFW_KEY_RIGHT]) {
+    if(keyboard[GLFW_KEY_RIGHT] || keyboard[GLFW_KEY_D]) {
         this->position += this->right * this->movementSpeed * dt;
     }
-    if(keyboard[GLFW_KEY_UP]) {
+    if(keyboard[GLFW_KEY_UP] || keyboard[GLFW_KEY_W]) {
         this->position += this->front * this->movementSpeed * 1.5f * dt;
     }
-    if(keyboard[GLFW_KEY_DOWN]) {
+    if(keyboard[GLFW_KEY_DOWN] || keyboard[GLFW_KEY_S]) {
         this->position -= this->front * this->movementSpeed * 1.5f * dt;
     }
 }

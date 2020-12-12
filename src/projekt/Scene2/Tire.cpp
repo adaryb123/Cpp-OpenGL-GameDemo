@@ -77,10 +77,10 @@ void Tire::render(Scene &scene) {
 void Tire::collide(const std::string& collisionType) {
     collided = true;
     if (collisionType == "FRONT"){
-        speed.x = 0;
+        speed.x /= 2;
         rotMomentum = {0,0,0};
         position.z -= 0.75f;
-        speed.z -= 1.0f;
+        speed.z -= 2.0f;
         rotMomentum.y = -5.0f;
     }
     else if (collisionType == "LEFT"){

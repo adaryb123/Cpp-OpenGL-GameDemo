@@ -62,7 +62,7 @@ bool Player::update(Scene &scene, float dt) {
 
         // If player hits an obstacle, call the collide metod of the obstacle
         auto tire = dynamic_cast<Tire*>(obj.get());
-        if(tire && airborne == false) {
+        if(tire && airborne == false && tire->collided == false) {
             if (tire->boundingBox.max_y <= boundingBox.min_y && tire->boundingBox.max_y >= boundingBox.max_y)
                 if ((tire->boundingBox.min_x >= boundingBox.max_x && tire->boundingBox.min_x <= boundingBox.min_x ) ||
                 (tire->boundingBox.max_x >= boundingBox.max_x && tire->boundingBox.max_x <= boundingBox.min_x))
@@ -97,9 +97,9 @@ bool Player::update(Scene &scene, float dt) {
         }
     }
     // Move left and right
-    if(scene.keyboard[GLFW_KEY_LEFT])
+    if(scene.keyboard[GLFW_KEY_LEFT] || scene.keyboard[GLFW_KEY_A])
         position.x += 10 * dt;
-    else if(scene.keyboard[GLFW_KEY_RIGHT])
+    else if(scene.keyboard[GLFW_KEY_RIGHT] || scene.keyboard[GLFW_KEY_D])
         position.x -= 10 * dt;
 
     //Toggle wind
