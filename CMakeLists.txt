@@ -266,12 +266,16 @@ add_executable(projekt
         src/projekt/Scene1/ObjectSpawnShuffler.cpp
         src/projekt/Scene1/ObjectSpawnShuffler.h
         src/projekt/Scene2/Finish.cpp
-        src/projekt/Scene2/Finish.h src/projekt/Scene2/Darkness.cpp src/projekt/Scene2/Darkness.h)
+        src/projekt/Scene2/Finish.h
+        src/projekt/Scene2/Darkness.cpp
+        src/projekt/Scene2/Darkness.h)
 target_link_libraries(projekt ppgso shaders)
 install(TARGETS projekt DESTINATION .)
 
 #
 # INSTALLATION
 #
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libstdc++ -static-libgcc")
+
 file(COPY "data/" DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 install(DIRECTORY data/ DESTINATION .)

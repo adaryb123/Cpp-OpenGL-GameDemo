@@ -64,7 +64,8 @@ bool Player::update(Scene &scene, float dt) {
         auto tire = dynamic_cast<Tire*>(obj.get());
         if(tire && airborne == false) {
             if (tire->boundingBox.max_y <= boundingBox.min_y && tire->boundingBox.max_y >= boundingBox.max_y)
-                if ((tire->boundingBox.min_x >= boundingBox.max_x && tire->boundingBox.min_x <= boundingBox.min_x ) || (tire->boundingBox.max_x >= boundingBox.max_x && tire->boundingBox.max_x <= boundingBox.min_x))
+                if ((tire->boundingBox.min_x >= boundingBox.max_x && tire->boundingBox.min_x <= boundingBox.min_x ) ||
+                (tire->boundingBox.max_x >= boundingBox.max_x && tire->boundingBox.max_x <= boundingBox.min_x))
                 {
                     if (tire->boundingBox.max_y >=  boundingBox.min_y -0.5)
                         tire->collide("FRONT");         //collision from front
@@ -80,9 +81,9 @@ bool Player::update(Scene &scene, float dt) {
         // If player hits an obstacle, call the collide metod of the obstacle
         auto trafficCone = dynamic_cast<TrafficCone*>(obj.get());
         if(trafficCone && airborne == false && trafficCone->collided == false) {
-
             if (trafficCone->boundingBox.max_y <= boundingBox.min_y && trafficCone->boundingBox.max_y >= boundingBox.max_y)
-                if ((trafficCone->boundingBox.min_x >= boundingBox.max_x && trafficCone->boundingBox.min_x <= boundingBox.min_x ) || (trafficCone->boundingBox.max_x >= boundingBox.max_x && trafficCone->boundingBox.max_x <= boundingBox.min_x))
+                if ((trafficCone->boundingBox.min_x >= boundingBox.max_x && trafficCone->boundingBox.min_x <= boundingBox.min_x ) ||
+                (trafficCone->boundingBox.max_x >= boundingBox.max_x && trafficCone->boundingBox.max_x <= boundingBox.min_x))
                     {
                         if (trafficCone->boundingBox.max_y >=  boundingBox.min_y -1.0)
                             trafficCone->collide("FRONT");          //collision from front
@@ -143,6 +144,7 @@ bool Player::update(Scene &scene, float dt) {
 }
 
 void Player::render(Scene &scene) {
+
     shader->use();
 
     // Set up light

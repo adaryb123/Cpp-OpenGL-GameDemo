@@ -30,7 +30,6 @@ bool Crate::update(Scene &scene, float dt) {
 
 void Crate::render(Scene &scene) {
     shader->use();
-
     //Light1
     auto lightSource1 = dynamic_cast<PointLight*>(scene.pointLights.front().get());
     shader->setUniform("light.position",lightSource1->position);
@@ -41,7 +40,6 @@ void Crate::render(Scene &scene) {
     shader->setUniform("light.constant", lightSource1->constant);
     shader->setUniform("light.linear", lightSource1->linear);
     shader->setUniform("light.quadratic", lightSource1->quadratic);
-
     //Light2
     auto lightSource2 = dynamic_cast<PointLight*>(scene.pointLights.back().get());
     shader->setUniform("light2.position",lightSource2->position);
@@ -52,18 +50,15 @@ void Crate::render(Scene &scene) {
     shader->setUniform("light2.constant", lightSource2->constant);
     shader->setUniform("light2.linear", lightSource2->linear);
     shader->setUniform("light2.quadratic", lightSource2->quadratic);
-
     //Material
     shader->setUniform("material.ambient", material.ambient);
     shader->setUniform("material.diffuse", material.diffuse);
     shader->setUniform("material.specular", material.specular);
     shader->setUniform("material.shininess", material.shininess);
-
     //Camera
     shader->setUniform("viewPosition",scene.camera->position);
     shader->setUniform("ProjectionMatrix", scene.camera->projectionMatrix);
     shader->setUniform("ViewMatrix", scene.camera->viewMatrix);
-
     // render mesh
     shader->setUniform("ModelMatrix", modelMatrix);
     shader->setUniform("Texture", *texture);
