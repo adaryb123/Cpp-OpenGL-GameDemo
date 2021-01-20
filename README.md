@@ -10,6 +10,11 @@ File ***finalna_sprava.pdf*** contains documentation in slovak language.
 
 All object models and textures located in ***/data*** folder are from https://free3d.com/
 
-## Game summary:
-
 ## Controls:
+
+Scene 1:
+
+WASD - move, mouse - move camera, F - interact
+
+Scene 2:
+AD - move, W - toggle wind, SPACE - jump, E - change camera view, R - restart scene 2, B - restart scene 1
