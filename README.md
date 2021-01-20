@@ -8,6 +8,8 @@ My code is located in ***/src/projekt*** folder.
 
 File ***finalna_sprava.pdf*** contains documentation in slovak language.
 
+All object models and textures located in ***/data*** folder are from https://free3d.com/
+
 ## Game summary:
 
 ## Controls:
